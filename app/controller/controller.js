@@ -1,6 +1,7 @@
 import dataMapper from "../datamapper/datamapper.js";
 
 const controller = {
+	// changer await datamapper.blabla par getInfos
 	async clientsInformation(req, res) {
 		try {
 			let clientList = await dataMapper.getClients();

@@ -4,7 +4,6 @@ BEGIN;
 DROP TABLE
     IF EXISTS "clients",
     "appointments",
-    "dates",
     "offers",
     "services",
     "enterprises"

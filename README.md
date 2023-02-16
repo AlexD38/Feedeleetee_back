@@ -1,7 +1,10 @@
 # Feedeleetee
 
 
-## TODO 
+## TODO :
+
+
+- rajouter les scripts json "reset_db" : "bash /scripts/deploy.sh"
 
 ### BACK : 
 

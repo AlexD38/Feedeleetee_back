@@ -4,7 +4,7 @@
 ## TODO :
 
 
-- [X] rajouter les scripts json "reset_db" : "bash /scripts/deploy.sh"
+- __rajouter table user pour l'auth !__
 
 ---
 
@@ -13,8 +13,8 @@
 
 - routes get crées : refacto pour unique méthode datamapper get ? 
 
-- routes posst à créer
-
+- routes post à créer
+- routes PATCH à créer
 - route delete à créer
 
 - tester les queries avec user stories pour faire les queries

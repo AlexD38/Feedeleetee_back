@@ -1,6 +1,6 @@
 import client from "../database.js";
 
-const dataMapper = {
+const get_model = {
 	// déclarer que tableName est la fin de l'url
 	// renommer la méthode "getInformations"
 	// mettre table name dans la query sql
@@ -57,4 +57,4 @@ const dataMapper = {
 	},
 };
 
-export default dataMapper;
+export default get_model;

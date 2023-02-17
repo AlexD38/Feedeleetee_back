@@ -1,7 +1,8 @@
-import dataMapper from "../datamapper/datamapper.js";
+import dataMapper from "../models/get_model.js";
 
-const controller = {
+const get_controller = {
 	// changer await datamapper.blabla par getInfos
+	//! définir ici req.url split pour table name et le passser en arg des methodes.
 	async clientsInformation(req, res) {
 		try {
 			let clientList = await dataMapper.getClients();
@@ -64,4 +65,4 @@ const controller = {
 	},
 };
 
-export default controller;
+export default get_controller;

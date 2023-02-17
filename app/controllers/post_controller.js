@@ -43,6 +43,17 @@ const post_controller = {
 		);
 		res.json(results);
 	},
+	async createService(req, res) {
+		const { name, description, price, enterpriseId } = req.body;
+
+		const results = await post_model.insertServices(
+			name,
+			description,
+			price,
+			enterpriseId
+		);
+		res.json(results);
+	},
 };
 
 export default post_controller;

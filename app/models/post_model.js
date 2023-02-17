@@ -105,6 +105,36 @@ const post_model = {
 			console.log(error);
 		}
 	},
+	async insertServices(name, description, price, enterpriseId) {
+		try {
+			const sqlQuery = {
+				text: `INSERT INTO
+                services (
+                name,
+                description,
+                price, enterprise_id
+                )
+                VALUES 
+                ($1,$2,$3,$4)
+                `,
+				values: [name, description, price, enterpriseId],
+			};
+			await client.query(sqlQuery);
+			let serviceCreated = sqlQuery.values;
+
+			if (serviceCreated && serviceCreated != "undefined") {
+				console.log(`${serviceCreated} créé en base de donnée`);
+			} else {
+				console.log(`${serviceCreated} n'a pas pu être entré en bdd`);
+			}
+			const result = {
+				succes: `L'offre : ${name},${description}, ${price}, well added to database`,
+			};
+			return result;
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	async insertOffers(salesBeforeOffer, description, discount) {
 		//! FRANCAIS ?
 		try {

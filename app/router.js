@@ -1,5 +1,6 @@
 import express from "express";
 import get_controller from "./controllers/get_controller.js";
+import patch_controller from "./controllers/patch_controller.js";
 import post_controller from "./controllers/post_controller.js";
 
 const app = express();
@@ -19,7 +20,8 @@ router.post("/appointments", post_controller.createAppointments);
 router.post("/offers", post_controller.createOffer);
 router.post("/services", post_controller.createService);
 
-// PATCH ROUTES
+//* PATCH ROUTES
+router.patch("/clients/:id(\\d+)", patch_controller.updateClient);
 
 // DELETE ROUTES
 

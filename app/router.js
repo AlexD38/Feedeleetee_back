@@ -22,6 +22,7 @@ router.post("/services", post_controller.createService);
 
 //* PATCH ROUTES
 router.patch("/clients/:id(\\d+)", patch_controller.updateClient);
+router.patch("/enterprises/:id(\\d+)", patch_controller.updateEnterprise);
 
 // DELETE ROUTES
 

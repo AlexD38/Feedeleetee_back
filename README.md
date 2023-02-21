@@ -5,17 +5,14 @@
 
 
 - __rajouter table user pour l'auth !__
+<!-- - rajotuer useri_id foreign key dans la table clients pour rendre la vue des rdv du client lors de l'auth -->
+<!-- - rajouter le crud user daans les controllers et les models et routes -->
+
 
 ---
 
 
 ### BACK : 
-
-- routes get crées : refacto pour unique méthode datamapper get ? 
-
-- routes post à créer
-- routes PATCH à créer
-- route delete à créer
 
 - tester les queries avec user stories pour faire les queries
   - (__fonctions pour update les prix suivant les offres__)

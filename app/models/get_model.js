@@ -1,9 +1,6 @@
 import client from "../database.js";
 
 const get_model = {
-	// déclarer que tableName est la fin de l'url
-	// renommer la méthode "getInformations"
-	// mettre table name dans la query sql
 	async getClients() {
 		try {
 			const sqlQuery = `

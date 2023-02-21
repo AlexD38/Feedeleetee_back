@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "resetdb" : "bash scripts/deploy.sh"
+    "resetdb": "bash scripts/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-
+    "jsonwebtoken": "^9.0.0",
     "pg": "^8.8.0"
   },
   "devDependencies": {

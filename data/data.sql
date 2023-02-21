@@ -177,7 +177,7 @@ INSERT INTO
         sales_before_offer,
         description,
         -- FRANCAIS ??
-        réduction
+        discount
     )
 VALUES (3, '-10% tous les 3 rdv', '10'), (5, '-50% tous les 5 rdv', '50'), (0, 'rdv gratuit', '100');
 

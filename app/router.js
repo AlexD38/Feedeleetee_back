@@ -3,6 +3,8 @@ import delete_controller from "./controllers/delete_controller.js";
 import get_controller from "./controllers/get_controller.js";
 import patch_controller from "./controllers/patch_controller.js";
 import post_controller from "./controllers/post_controller.js";
+import signController from "./controllers/sign_controller.js";
+// import signController from "./controllers/sign_controller.js";
 
 const app = express();
 const router = express.Router();
@@ -15,6 +17,7 @@ router.get("/offers", get_controller.offerInformation);
 router.get("/services", get_controller.serviceInformation);
 
 //* POST ROUTES
+router.post("/signin", signController.verifyUser);
 router.post("/clients", post_controller.createClient);
 router.post("/enterprises", post_controller.createEnterprise);
 router.post("/appointments", post_controller.createAppointments);

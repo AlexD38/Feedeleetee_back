@@ -143,7 +143,7 @@ const post_model = {
                 offers (
                 sales_before_offer,
                 description,
-                réduction
+                discount
                 )
                 VALUES 
                 ($1,$2,$3)

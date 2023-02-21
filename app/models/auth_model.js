@@ -11,19 +11,20 @@ const auth_model = {
 			// const response = {
 			// 	success: `User with mail : ${email} found in database`,
 			// };
-			console.log(response.rows[0]);
-			return response.rows[0];
+			// console.log(response.rows[0]);
+			return response.rows[0].mail;
 		} catch (error) {
 			console.log(error);
 		}
 	},
-	async getOneClientByItsPwd(password) {
+	async getOneClientByItsPwd(password, mailFound) {
 		try {
 			const sqlQuery = {
-				text: `SELECT * FROM users WHERE password=($2)`,
-				values: [password],
+				text: `SELECT * FROM users WHERE mail=($1) AND password=($2)`,
+				values: [mailFound, password],
 			};
 			const response = await client.query(sqlQuery);
+			console.log(response.rows[0]);
 			return response.rows[0];
 		} catch (error) {
 			console.log(error);

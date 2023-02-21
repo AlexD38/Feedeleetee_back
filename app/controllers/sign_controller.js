@@ -4,27 +4,38 @@ const signController = {
 	async verifyUser(req, res, next) {
 		// extraction de l'email et pwd depuis le body de la requete
 		const { email, password } = req.body;
-		console.log(email, password);
+		// console.log(email, password);
 		try {
 			// appel de la methode du datamapper qui renvoie lle user s'il le trouve
 			const mailFound = await auth_model.getOneClientByItsEmail(email);
-			console.log(mailFound);
+			// console.log(mailFound);
 			// si pas de user, renvoie d'error + return
 			if (!mailFound) {
 				res.json({ error: "mail not found...Mauvais identifiant" });
 				return;
 			}
-			console.log("email vérifié" + mailFound.mail);
+			console.log("email vérifié : " + mailFound);
 			const userFound = await auth_model.getOneClientByItsPwd(
-				email,
-				password
+				password,
+				mailFound
 			);
 			if (!userFound) {
 				res.json({ error: "pwd not found...Mauvais identifiant" });
 				return;
 			}
-			console.log(userFound);
-			res.json({ success: "welcome : " + userFound });
+			console.log(
+				"userFound is : " +
+					userFound.first_name +
+					" " +
+					userFound.last_name
+			);
+			res.json({
+				success:
+					"welcome : " +
+					userFound.first_name +
+					" " +
+					userFound.last_name,
+			});
 			next();
 		} catch (error) {
 			console.log(error);

@@ -23,6 +23,9 @@ router.post("/services", post_controller.createService);
 //* PATCH ROUTES
 router.patch("/clients/:id(\\d+)", patch_controller.updateClient);
 router.patch("/enterprises/:id(\\d+)", patch_controller.updateEnterprise);
+router.patch("/appointments/:id(\\d+)", patch_controller.updateAppointment);
+router.patch("/offers/:id(\\d+)", patch_controller.updateOffer);
+router.patch("/services/:id(\\d+)", patch_controller.updateService);
 
 // DELETE ROUTES
 

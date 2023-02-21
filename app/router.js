@@ -1,4 +1,5 @@
 import express from "express";
+import delete_controller from "./controllers/delete_controller.js";
 import get_controller from "./controllers/get_controller.js";
 import patch_controller from "./controllers/patch_controller.js";
 import post_controller from "./controllers/post_controller.js";
@@ -27,6 +28,11 @@ router.patch("/appointments/:id(\\d+)", patch_controller.updateAppointment);
 router.patch("/offers/:id(\\d+)", patch_controller.updateOffer);
 router.patch("/services/:id(\\d+)", patch_controller.updateService);
 
-// DELETE ROUTES
+//* DELETE ROUTES
+router.delete("/clients/:id(\\d+)", delete_controller.deleteRecord);
+router.delete("/enterprises/:id(\\d+)", delete_controller.deleteRecord);
+router.delete("/appointments/:id(\\d+)", delete_controller.deleteRecord);
+router.delete("/offers/:id(\\d+)", delete_controller.deleteRecord);
+router.delete("/services/:id(\\d+)", delete_controller.deleteRecord);
 
 export default router;

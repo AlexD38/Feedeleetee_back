@@ -5,11 +5,11 @@
 - **rajouter table user pour l'auth !**
 
 - **AUTHENTIF**
-  - ~~rajouter colomne clientt_id et enterprise_id sur users~~
-  - sign in mw
-  - ~~login mw~~
-    <!-- - rajotuer useri_id foreign key dans la table clients pour rendre la vue des rdv du client lors de l'auth -->
-    <!-- - rajouter le crud user daans les controllers et les models et routes -->
+
+  rattacher le user à son client ou l'enttrrepise : fait !
+  -sign up fait ! 
+  -log in fait ! 
+  -**token à implémenter** 
 
 ---
 
@@ -37,10 +37,8 @@
 
 Le user se connecter / créer un compte.
 
-- une fois connecté il peut choisir si il veut devenir client ou créer une entreprise.
-  - **(route : post /enterprise, post_controller.createEnterprise (INSERT INTO enterprises.... + INSERT INTO users (enterprise_id) VALUES (l'id de l'entreprise) WHERE user_id = l'id du user)**
-  - **(route : post /clients, post_controller.createClient (INSERT INTO clients.... + INSERT INTO users (client_id) VALUES (l'id du client) WHERE user_id = l'id du user)**
 
+- une fois connecté il peut choisir si il veut devenir client ou créer une entreprise.
 Si il crée une **entreprise** :
 
 - le user se voit attribué l'id de l'entreprise et aura accés à son dashboard.

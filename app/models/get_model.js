@@ -22,6 +22,19 @@ const get_model = {
 			console.error(error);
 		}
 	},
+	async getOneEnterprise(enterpriseId) {
+		try {
+			const sqlQuery = {
+				text: `SELECT * FROM enterprises WHERE id = ($1);`,
+				values: [enterpriseId],
+			};
+			const response = await client.query(sqlQuery);
+			let data = response.rows;
+			return data;
+		} catch (error) {
+			console.error(error);
+		}
+	},
 	async getAppointments() {
 		try {
 			const sqlQuery = `SELECT * FROM appointments; `;

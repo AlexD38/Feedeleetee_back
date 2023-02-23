@@ -1,4 +1,4 @@
-import auth_model from "../models/auth_model.js";
+import auth_model from "../../models/auth_model.js";
 
 const signController = {
 	async verifyUser(req, res, next) {
@@ -36,7 +36,7 @@ const signController = {
 					" " +
 					userFound.last_name,
 			});
-			next();
+			next({ success });
 		} catch (error) {
 			console.log(error);
 			return;

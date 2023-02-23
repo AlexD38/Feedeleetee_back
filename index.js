@@ -15,7 +15,7 @@ import session from "express-session";
 import router from "./app/router.js";
 // import du dotenv pour aller chercher les credentials de la db
 import dotenv from "dotenv";
-import signController from "./app/controllers/sign_controller.js";
+import signController from "./app/middlewares/authMiddlewares/login_controller.js";
 // config pour dotenv
 dotenv.config();
 
@@ -40,8 +40,11 @@ app.use(
 
 // dfinition du chemin pour fichiers statiques
 app.use(express.static(__dirname + "/public"));
+
 // utilisation du mw d'auth ici
-app.use(signController.verifyUser);
+// app.use(signController.verifyUser);
+//! authMiddleware.checkIfLogged
+
 // utilisation du router
 app.use(router);
 

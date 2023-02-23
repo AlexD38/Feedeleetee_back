@@ -67,6 +67,57 @@ const post_model = {
 			}
 			const result = {
 				succes: `${name} well added to database`,
+				enterpriseName: `${name}`,
+			};
+			return result;
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async insertEnterpriseIdIntoUserTable(enterpriseName, userId) {
+		try {
+			const sqlQuery = {
+				text: `INSERT INTO
+                users (
+                enterprise_id)
+                VALUES 
+                ($1) WHERE user_id = ($2)
+                `,
+				values: [enterpriseName, userId],
+			};
+			await client.query(sqlQuery);
+			let enterpriseattached = sqlQuery.values;
+
+			if (!enterpriseName || !userId) {
+				res.json({ error: "Enterprise cannot be attached" });
+			}
+			const result = {
+				succes: `${enterpriseName} has been created by user : ${userId}`,
+			};
+			return result;
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async insertClientIdIntoUserTable(clientId, userId) {
+		try {
+			const sqlQuery = {
+				text: `INSERT INTO
+                users (
+                client_id)
+                VALUES 
+                ($1) WHERE user_id = ($2)
+                `,
+				values: [clientId, userId],
+			};
+			await client.query(sqlQuery);
+			let clientAttached = sqlQuery.values;
+
+			if (!clientId || !userId) {
+				res.json({ error: "Client cannot be attached" });
+			}
+			const result = {
+				succes: `${clientId} has been created by user : ${userId}`,
 			};
 			return result;
 		} catch (error) {
@@ -135,8 +186,38 @@ const post_model = {
 			console.log(error);
 		}
 	},
-	async insertOffers(salesBeforeOffer, description, discount) {
+	async insertUsers(firstName, lastName, mail, password) {
 		//! FRANCAIS ?
+		try {
+			const sqlQuery = {
+				text: `INSERT INTO
+                users (
+                first_name,
+                last_name,
+                mail,
+				password
+                )
+                VALUES 
+                ($1,$2,$3, $4)
+                `,
+				values: [firstName, lastName, mail, password],
+			};
+			await client.query(sqlQuery);
+			let userCreated = sqlQuery.values;
+
+			if (!userCreated) {
+				console.log("le user n'a pas pu être créé en base de donnéee");
+				res.json = { error: "User cannot be created." };
+			}
+			const result = {
+				succes: `Le user : ${firstName} ${lastName}, well added to database`,
+			};
+			return result;
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async insertOffers(salesBeforeOffer, description, discount) {
 		try {
 			const sqlQuery = {
 				text: `INSERT INTO

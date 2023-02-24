@@ -105,25 +105,6 @@ const post_controller = {
 		);
 		res.json(results);
 	},
-	async createUser(req, res, next) {
-		try {
-			const { firstName, lastName, mail, password } = req.body;
-
-			const results = await post_model.insertUsers(
-				firstName,
-				lastName,
-				mail,
-				password
-			);
-			if (results) {
-				res.redirect("/login");
-			} else {
-				return;
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	},
 };
 
 export default post_controller;

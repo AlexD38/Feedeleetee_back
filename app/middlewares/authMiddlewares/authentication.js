@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import auth_model from "../../models/auth_model.js";
+import post_model from "../../models/post_model.js";
 //  ce mw va créer le token si le sign controller renvoie un user puis next(); vers route graphQL
 
 const authMiddleware = {
@@ -13,8 +15,7 @@ const authMiddleware = {
 			// déclaration du payload de token
 			const payload = {
 				//je prends l'id et le username du currentUser stocké dans la requête après avoir été trouvé en bdd par le précédent MW, afin que le token se crée avec les bonnes infos du user trouvé en bdd.
-				userId: req.currentUser.id,
-				name: req.currentUser.userName,
+				userId: res.userId,
 			};
 			// déclaration du secret de token
 			const secret = process.env.SECRET ?? "sSsalazarSsSerpentard";
@@ -55,6 +56,74 @@ const authMiddleware = {
 			// TODO si token il y a , le vérifier, extraire les données (l'id du user) si c'est good, next sinon renvoi d'erreur grace aux arg du token.
 		});
 		next();
+	},
+	async verifyUser(req, res, next) {
+		// extraction de l'email et pwd depuis le body de la requete
+		const { email, password } = req.body;
+		// console.log(email, password);
+		try {
+			// appel de la methode du datamapper qui renvoie lle user s'il le trouve
+			const mailFound = await auth_model.getOneClientByItsEmail(email);
+			// console.log(mailFound);
+			// si pas de user, renvoie d'error + return
+			if (!mailFound) {
+				res.json({ error: "mail not found...Mauvais identifiant" });
+				return;
+			}
+			console.log("email vérifié : " + mailFound);
+			const userFound = await auth_model.getOneClientByItsPwd(
+				password,
+				mailFound
+			);
+			if (!userFound) {
+				res.json({ error: "pwd not found...Mauvais identifiant" });
+				return;
+			}
+			console.log(
+				"userFound is : " +
+					userFound.first_name +
+					" " +
+					userFound.last_name
+			);
+			res.json({
+				success:
+					"welcome : " +
+					userFound.first_name +
+					" " +
+					userFound.last_name +
+					"with id" +
+					userFound.id,
+				userId: userFound.id,
+			});
+			next();
+		} catch (error) {
+			console.log(error);
+			return;
+		}
+	},
+	async createUser(req, res, next) {
+		try {
+			const { firstName, lastName, mail, password } = req.body;
+
+			const results = await post_model.insertUsers(
+				firstName,
+				lastName,
+				mail,
+				password
+			);
+			if (results) {
+				res.redirect("/login");
+				next({ success: true });
+			} else {
+				return;
+			}
+		} catch (error) {
+			res.status(500).send({
+				message: "Somehting went wrong, sorry.",
+				statusCode: 500,
+			});
+			console.log(error);
+		}
 	},
 };
 export default authMiddleware;

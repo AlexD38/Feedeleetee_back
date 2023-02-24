@@ -15,7 +15,6 @@ import session from "express-session";
 import router from "./app/router.js";
 // import du dotenv pour aller chercher les credentials de la db
 import dotenv from "dotenv";
-import signController from "./app/middlewares/authMiddlewares/login_controller.js";
 // config pour dotenv
 dotenv.config();
 

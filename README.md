@@ -2,18 +2,36 @@
 
 ## TODO :
 
-- **rajouter table user pour l'auth !**
+- ~~Re arranger les dossier auth~~
+- ~~Renommer avec le bon nom ( celui de Const…)~~
+~~AuthMw.createToken~~
+~~AuthMw.verifyToken~~
+~~AuthMw.createUser~~
+~~AuthMw.verifyUser~~
 
-- **AUTHENTIF**
 
-  rattacher le user à son client ou l'enttrrepise : fait !
-  -sign up fait ! 
-  -log in fait ! 
-  -**token à implémenter** 
+## enterprises :
+
+~~Créer des functions pour rendre d’un seul coup~~
+
+~~router.get('/mydashboard', verifytoken, get_controller.getinfosfromenterprise);~~
+
+  1. ~~verify token renvoie le userId puis next();~~
+  2. ~~j'appel le conrroller allinfos~~
+  3. ~~qui appelle le model allinfos~~
+  4. ~~qui appelle la fonction~~ 
+  5. ~~qui renvoie toutes ls infos~~
+
+
+## clients :
+- Les rdv du client :id
+(Afin de limiter les appels en BDD depuis le front) 
+
+Créer fonction pour update prix d’un rdv
 
 ---
 
-### BACK :
+## BACK :
 
 - ~~refaire les user stories~~
 
@@ -29,7 +47,7 @@
 
 ---
 
-### FRONT
+## FRONT
 
 ---
 

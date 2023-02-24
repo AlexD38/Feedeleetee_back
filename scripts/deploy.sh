@@ -14,8 +14,8 @@ psql -f ./data/tables.sql
 psql -f  ./data/data.sql
 
 #functions
-#psql -f ./data/functions/get_wands.sql
+psql -f ./data/functions/enterprise_infos.sql
 #psql -f ./data/functions/insert_user.sql
 
 #views
-#psql -f ./data/functions/views.sql
+# psql -f ./data/views/views.sql

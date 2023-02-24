@@ -214,6 +214,7 @@ const post_model = {
 			};
 			return result;
 		} catch (error) {
+			res.json = { error: "nope" };
 			console.log(error);
 		}
 	},

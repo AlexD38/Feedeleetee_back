@@ -3,7 +3,7 @@ import delete_controller from "./controllers/delete_controller.js";
 import get_controller from "./controllers/get_controller.js";
 import patch_controller from "./controllers/patch_controller.js";
 import post_controller from "./controllers/post_controller.js";
-import loginController from "./middlewares/authMiddlewares/login_controller.js";
+import authentication from "./middlewares/authMiddlewares/authentication.js";
 // import signController from "./controllers/sign_controller.js";
 
 const app = express();
@@ -41,22 +41,26 @@ const router = express.Router();
 // router.delete("/services/:id(\\d+)", delete_controller.deleteRecord);
 
 //! ENTERPRISE ROUTES
+router.get(
+	"/mydashboard",
+	// authentication.verifyToken,
+	get_controller.getAllInfosForMyEnterprise
+);
 
 //! CLIENT ROUTES
 
 //! USERS ROUTES
-router.get("/login", loginController.verifyUser);
-router.get("/signup", post_controller.createUser);
-router.post("/users", post_controller.createUser);
+router.post("/login", authentication.verifyUser, authentication.createToken);
+router.post("/signup", authentication.createUser, authentication.createToken);
 router.post(
 	"/enterprise",
-	// authMiddleware.logIn,
+	// authentication.verifyToken,
 	post_controller.createEnterprise,
 	post_controller.attachEnterpriseToUser
 );
 router.post(
 	"/clients",
-	// authMiddleware.logIn,
+	// authentication.verifyToken,
 	post_controller.createClient,
 	post_controller.attachClientToUser
 );

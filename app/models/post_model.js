@@ -1,3 +1,4 @@
+import { response } from "express";
 import client from "../database.js";
 
 const post_model = {
@@ -214,7 +215,8 @@ const post_model = {
 			};
 			return result;
 		} catch (error) {
-			res.json = { error: "nope" };
+			response.json("no");
+			// res.json = { error: "nope" };
 			console.log(error);
 		}
 	},

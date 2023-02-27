@@ -16,6 +16,8 @@ const authMiddleware = {
 			const payload = {
 				//je prends l'id et le username du currentUser stocké dans la requête après avoir été trouvé en bdd par le précédent MW, afin que le token se crée avec les bonnes infos du user trouvé en bdd.
 				userId: res.userId,
+				enterpriseId: res.enterpriseId,
+				clientId: res.clientId,
 			};
 			// déclaration du secret de token
 			const secret = process.env.SECRET ?? "sSsalazarSsSerpentard";
@@ -86,6 +88,7 @@ const authMiddleware = {
 					userFound.last_name
 			);
 			res.json({
+				//! switch case case1 client_id = res.json cleint_id + next case2 enterprise_id = res.json enterprise_id + next case 3 = res.json({"create enterprise or client profile first "})
 				success:
 					"welcome : " +
 					userFound.first_name +
@@ -94,6 +97,7 @@ const authMiddleware = {
 					"with id" +
 					userFound.id,
 				userId: userFound.id,
+				enterpriseId: userFound.enterprise_id,
 			});
 			next();
 		} catch (error) {

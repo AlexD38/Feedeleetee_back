@@ -87,18 +87,44 @@ const authMiddleware = {
 					" " +
 					userFound.last_name
 			);
-			res.json({
-				//! switch case case1 client_id = res.json cleint_id + next case2 enterprise_id = res.json enterprise_id + next case 3 = res.json({"create enterprise or client profile first "})
-				success:
-					"welcome : " +
-					userFound.first_name +
-					" " +
-					userFound.last_name +
-					"with id" +
-					userFound.id,
-				userId: userFound.id,
-				enterpriseId: userFound.enterprise_id,
-			});
+			switch (true) {
+				case userFound.enterprise_id === null:
+					// Code à exécuter si enterprise_id est nul
+					console.log("Le user n'a pas encore créé d'entreprise");
+					res.json({
+						success: true,
+						clientId: userFound.client_id,
+					});
+					break;
+				case userFound.client_id === null:
+					// Code à exécuter si client_id est nul
+					console.log("Le user n'a pas de profil client");
+					res.json({
+						success: true,
+						enterpriseId: userFound.enterprise_id,
+					});
+					break;
+				case userFound.client_id === null ||
+					userFound.enterprise_id === null:
+					// Code à exécuter si client_id est nul
+					console.log(
+						"Le user n'a pas de profil client ni d'entreprise"
+					);
+					res.json({
+						success: true,
+						enterpriseId: userFound.id,
+					});
+					break;
+				default:
+					res.json({
+						success: true,
+						userId: userFound.id,
+						enterpriseId: userFound.enterprise_id,
+						clientId: userFound.client_id,
+					});
+					// Code à exécuter si ni enterprise_id ni client_id ne sont nuls
+					console.log("Le user à un profil client et une entreprise");
+			}
 			next();
 		} catch (error) {
 			console.log(error);

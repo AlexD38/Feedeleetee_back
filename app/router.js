@@ -78,6 +78,21 @@ router.patch(
 	// authentication.verifyToken,
 	patch_controller.insertClientIntoAppointment
 );
+router.patch(
+	"/clients/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateClient
+);
+router.delete(
+	"/clients/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
+);
+router.get(
+	"/clients/:id(\\d+)",
+	// authentication.verifyToken,
+	get_controller.clientInformation
+);
 //! USERS ROUTES
 router.post("/login", authentication.verifyUser, authentication.createToken);
 router.post("/signup", authentication.createUser, authentication.createToken);

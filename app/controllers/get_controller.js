@@ -3,11 +3,12 @@ import dataMapper from "../models/get_model.js";
 const get_controller = {
 	// changer await datamapper.blabla par getInfos
 	//! définir ici req.url split pour table name et le passser en arg des methodes.
-	async clientsInformation(req, res) {
+	async clientInformation(req, res) {
 		try {
-			let clientList = await dataMapper.getClients();
-			if (clientList) {
-				res.json(clientList);
+			const clientId = req.params.id;
+			let client = await dataMapper.getOneClient(clientId);
+			if (client) {
+				res.json(client);
 			} else {
 				console.log(error);
 			}

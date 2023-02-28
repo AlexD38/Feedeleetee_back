@@ -47,10 +47,13 @@ const get_model = {
 			console.log(error);
 		}
 	},
-	async getClients() {
+	async getOneClient(clientId) {
 		try {
-			const sqlQuery = `
-            SELECT * FROM clients;`;
+			const sqlQuery = {
+				text: `
+            SELECT * FROM clients where clients.id = ($1);`,
+				values: [clientId],
+			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
 			return data;

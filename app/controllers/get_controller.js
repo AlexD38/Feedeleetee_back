@@ -16,6 +16,36 @@ const get_controller = {
 			console.log(error);
 		}
 	},
+	async clientsAppointments(req, res) {
+		try {
+			const clientId = req.params.id;
+			let clientsAppointments = await dataMapper.getOneClientAppointments(
+				clientId
+			);
+			if (clientsAppointments) {
+				res.json(clientsAppointments);
+			} else {
+				console.log(error);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async enterpriseClients(req, res) {
+		try {
+			const enterpriseId = req.params.id;
+			let enterpriseClients = await dataMapper.getclientsFromEnterprise(
+				enterpriseId
+			);
+			if (enterpriseClients) {
+				res.json(enterpriseClients);
+			} else {
+				console.log(error);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	async getAllInfosForMyEnterprise(req, res) {
 		try {
 			// const userId = req.header.token.userId;

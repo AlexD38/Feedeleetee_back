@@ -21,17 +21,13 @@ const get_model = {
 				  'clients.first_name', clients.firstname, 
 				  'clients.last_name', clients.lastname, 
 				  'clients.email', COALESCE(clients.mail, ''),
-				  'clients.tel', COALESCE(clients.tel, ''),
-				  'offers.id', COALESCE(offers.id, 0), 
-				  'offers.discount', COALESCE(offers.discount, 0), 
-				  'offers.description', COALESCE(offers.description, '')
+				  'clients.tel', COALESCE(clients.tel, '')
 				)) AS appointments
 			  FROM users
 			  JOIN enterprises ON enterprise_id = enterprises.id
 			  JOIN appointments ON appointments.enterprise_id = enterprises.id
 			  JOIN clients ON appointments.client_id = clients.id
 			  JOIN services ON services.enterprise_id = services.id
-			  JOIN offers ON appointments.offer_id = offers.id
 			  WHERE users.id = ($1)
 			  GROUP BY enterprises.name, address, logo;
 			  `,
@@ -53,6 +49,47 @@ const get_model = {
 				text: `
             SELECT * FROM clients where clients.id = ($1);`,
 				values: [clientId],
+			};
+			const response = await client.query(sqlQuery);
+			let data = response.rows;
+			return data;
+		} catch (err) {
+			console.error(err);
+		}
+	},
+	async getOneClientAppointments(clientId) {
+		try {
+			const sqlQuery = {
+				text: `
+				SELECT json_build_object('appointments', json_agg(json_build_object('day', day, 'time', time_of_day, 'length', length_of_appointment)), 'firstname', firstname, 'lastname', lastname) AS client_appointments
+				FROM clients 
+				JOIN appointments ON client_id = clients.id 
+				WHERE clients.id = $1 
+				GROUP BY clients.id, firstname, lastname;`,
+				values: [clientId],
+			};
+			const response = await client.query(sqlQuery);
+			let data = response.rows;
+			return data;
+		} catch (err) {
+			console.error(err);
+		}
+	},
+	async getclientsFromEnterprise(enterpriseId) {
+		try {
+			const sqlQuery = {
+				text: `
+				SELECT json_build_object('enterprise_name', enterprises.name, 'clients', json_agg(client_info))
+				FROM enterprises
+				LEFT JOIN (
+				  SELECT DISTINCT appointments.enterprise_id, json_build_object('firstname', clients.firstname, 'lastname', clients.lastname, 'mail', clients.mail, 'tel', clients.tel) AS client_info
+				  FROM appointments
+				  JOIN clients ON appointments.client_id = clients.id
+				  WHERE appointments.enterprise_id = enterprises.id AND enterprises.id = ($1)
+				) AS clients_info ON enterprises.id = clients_info.enterprise_id
+				GROUP BY enterprises.id;
+`,
+				values: [enterpriseId],
 			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;

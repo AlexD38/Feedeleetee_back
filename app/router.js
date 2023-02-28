@@ -48,7 +48,36 @@ router.get(
 );
 
 //! CLIENT ROUTES
-
+router.get(
+	"/enterprises",
+	// authentication.verifyToken,
+	get_controller.enterpriseInformation
+);
+router.get(
+	"/enterprises/:id(\\d+)",
+	// authentication.verifyToken,
+	get_controller.oneEnterpriseInformation
+);
+router.get(
+	"/enterprises/:id(\\d+)/services",
+	// authentication.verifyToken,
+	get_controller.serviceInformationFromEnterprise
+);
+router.get(
+	"/enterprises/:id(\\d+)/services/appointments",
+	// authentication.verifyToken,
+	get_controller.appointmentInformationFromServices
+);
+router.get(
+	"/enterprises/:id(\\d+)/offers",
+	// authentication.verifyToken,
+	get_controller.offerInformationFromEnterprise
+);
+router.patch(
+	"/appointments/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.insertClientIntoAppointment
+);
 //! USERS ROUTES
 router.post("/login", authentication.verifyUser, authentication.createToken);
 router.post("/signup", authentication.createUser, authentication.createToken);

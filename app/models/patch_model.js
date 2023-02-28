@@ -24,6 +24,35 @@ const patch_model = {
 		}
 	},
 	//je passe en argument, ce que j'extrair de req.body
+	async insertClientIntoAppointment(clientId, appointmentId) {
+		// getion d'erreur avec try / catch
+		try {
+			const sqlQuery = {
+				text: `SELECT * FROM UPDATE_APPOINTMENT($1, $2);
+				;
+				`,
+				values: [clientId, appointmentId],
+			};
+			// j'execute la query
+			const result = await client.query(sqlQuery);
+			console.log(result);
+			// je range mon client dans la variable client created
+			if (result.rowCount > 0) {
+				return {
+					success: true,
+					message: "Updated client into appointment is successfull !",
+				};
+			} else {
+				return {
+					success: false,
+					message: "woops... problem here",
+				};
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	//je passe en argument, ce que j'extrair de req.body
 	async updateEnterprise(field, value, enterpriseId) {
 		// getion d'erreur avec try / catch
 		try {

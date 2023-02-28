@@ -34,7 +34,7 @@ const get_controller = {
 	},
 	async enterpriseInformation(req, res) {
 		try {
-			let enterprises = await dataMapper.getEnterprise();
+			let enterprises = await dataMapper.getEnterprises();
 			if (enterprises) {
 				res.json(enterprises);
 			} else {
@@ -44,9 +44,25 @@ const get_controller = {
 			console.log(error);
 		}
 	},
-	async serviceInformation(req, res) {
+	async oneEnterpriseInformation(req, res) {
+		const enterpriseId = req.params.id;
 		try {
-			let services = await dataMapper.getServices();
+			let enterprise = await dataMapper.getOneEnterprise(enterpriseId);
+			if (enterprise) {
+				res.json(enterprise);
+			} else {
+				console.log(error);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async serviceInformationFromEnterprise(req, res) {
+		try {
+			const enterpriseId = req.params.id;
+			let services = await dataMapper.getServicesFromEnterprise(
+				enterpriseId
+			);
 			if (services) {
 				res.json(services);
 			} else {
@@ -56,9 +72,27 @@ const get_controller = {
 			console.log(error);
 		}
 	},
-	async offerInformation(req, res) {
+	async appointmentInformationFromServices(req, res) {
 		try {
-			let offers = await dataMapper.getOffers();
+			const enterpriseId = req.params.id;
+			let services = await dataMapper.getAppointmentsFromServices(
+				enterpriseId
+			);
+			if (services) {
+				res.json(services);
+			} else {
+				console.log(error);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async offerInformationFromEnterprise(req, res) {
+		try {
+			const enterpriseId = req.params.id;
+			let offers = await dataMapper.getOffersFromEnterprises(
+				enterpriseId
+			);
 			if (offers) {
 				res.json(offers);
 			} else {

@@ -27,6 +27,33 @@ const patch_controller = {
 			});
 		}
 	},
+	async insertClientIntoAppointment(req, res) {
+		try {
+			// const clientId = res.userId;
+			//! attention, une fois le front fait, prendre les clientid  depuis le token et non pas depuis le body
+			const { appointmentId, clientId } = req.body;
+
+			const appointmentUpdated =
+				await patch_model.insertClientIntoAppointment(
+					appointmentId,
+					clientId
+				);
+
+			if (!clientId) {
+				return res.status(404).json({
+					error: "client id is not defined",
+				});
+			}
+
+			// tester avec res.send
+			res.json(appointmentUpdated);
+		} catch (error) {
+			console.log(error);
+			res.status(404).json({
+				error: "vous n'avez pas pris ce rendez_vous, quelque chose à bloqué le processus",
+			});
+		}
+	},
 	async updateEnterprise(req, res) {
 		try {
 			const enterpriseId = req.params.id;
@@ -113,11 +140,9 @@ const patch_controller = {
 			);
 
 			if (!service) {
-				return res
-					.status(404)
-					.json({
-						error: "Le service en question n'a pas été trouvé",
-					});
+				return res.status(404).json({
+					error: "Le service en question n'a pas été trouvé",
+				});
 			}
 
 			// tester avec res.send

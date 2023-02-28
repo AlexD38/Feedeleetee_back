@@ -58,7 +58,7 @@ const get_model = {
 			console.error(err);
 		}
 	},
-	async getEnterprise() {
+	async getEnterprises() {
 		try {
 			const sqlQuery = `SELECT * FROM enterprises;`;
 			const response = await client.query(sqlQuery);
@@ -81,9 +81,36 @@ const get_model = {
 			console.error(error);
 		}
 	},
-	async getAppointments() {
+	async getAppointmentsFromServices(enterpriseId) {
 		try {
-			const sqlQuery = `SELECT * FROM appointments; `;
+			const sqlQuery = {
+				text: `SELECT json_build_object(
+				'nom de l entreprise', enterprises.name,
+				'services', (
+				  SELECT json_agg(json_build_object(
+									'nom du service', services.name, 
+									'description', services.description, 
+									'price', services.price,
+									'appointments', (
+									  SELECT json_agg(json_build_object(
+														  'day', appointments.day,
+														  'heure du rendez-vous', appointments.time_of_day,
+														  'durée du rendez-vous', appointments.length_of_appointment
+														))
+									  FROM appointments
+									  WHERE appointments.service_id = services.id
+									)
+								  ))
+				  FROM services
+				  WHERE services.enterprise_id = enterprises.id
+				  GROUP BY enterprises.id
+				)
+			  ) AS entreprise_et_services
+	   FROM enterprises
+	   WHERE enterprises.id = ($1);
+	   `,
+				values: [enterpriseId],
+			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
 			return data;
@@ -91,9 +118,23 @@ const get_model = {
 			console.error(error);
 		}
 	},
-	async getOffers() {
+	async getOffersFromEnterprises(enterpriseId) {
 		try {
-			const sqlQuery = `SELECT * FROM offers; `;
+			const sqlQuery = {
+				text: `SELECT json_build_object(
+					'nom de l entreprise', enterprises.name,
+					'offers', json_agg(json_build_object(
+										'description de l''offre', offers.description, 
+										'réduction sur prix en pourcentage', offers.discount
+									  ))
+				  ) AS entreprise_et_services
+		   FROM offers
+		   JOIN enterprises ON enterprise_id = enterprises.id
+		   WHERE enterprises.id = ($1)
+		   GROUP BY enterprises.id;
+		   `,
+				values: [enterpriseId],
+			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
 			return data;
@@ -101,9 +142,24 @@ const get_model = {
 			console.error(error);
 		}
 	},
-	async getServices() {
+	async getServicesFromEnterprise(enterpriseId) {
 		try {
-			const sqlQuery = `SELECT * FROM services; `;
+			const sqlQuery = {
+				text: `SELECT json_build_object(
+					'nom de l entreprise', enterprises.name,
+					'services', json_agg(json_build_object(
+										'nom du service', services.name, 
+										'description', services.description, 
+										'price', services.price
+									  ))
+				  ) AS entreprise_et_services
+		   FROM services
+		   JOIN enterprises ON enterprise_id = enterprises.id
+		   WHERE enterprises.id = ($1)
+		   GROUP BY enterprises.id;
+		   `,
+				values: [enterpriseId],
+			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
 			return data;

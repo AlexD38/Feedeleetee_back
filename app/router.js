@@ -43,7 +43,7 @@ const router = express.Router();
 //! ENTERPRISE ROUTES
 router.get(
 	"/mydashboard",
-	// authentication.verifyToken,
+	authentication.verifyToken,
 	get_controller.getAllInfosForMyEnterprise
 );
 

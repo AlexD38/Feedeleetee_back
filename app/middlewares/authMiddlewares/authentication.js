@@ -45,6 +45,10 @@ const authMiddleware = {
 	},
 	verifyToken: (req, res, next) => {
 		const token = req.header.token;
+		if (!token) {
+			res.json({ succes: false, message: "there's no token to verify" });
+			return;
+		}
 		console.log({ greetings: `Bonjour déjà créé : ${token}` });
 		jwt.verify(token, process.env.SECRET, (err, decoded) => {
 			if (err) {
@@ -55,7 +59,7 @@ const authMiddleware = {
 			}
 			const { userId, name } = decoded;
 			console.log({ userId, name });
-			// TODO si token il y a , le vérifier, extraire les données (l'id du user) si c'est good, next sinon renvoi d'erreur grace aux arg du token.
+			// si token il y a , le vérifier, extraire les données (l'id du user) si c'est good, next sinon renvoi d'erreur grace aux arg du token.
 		});
 		next();
 	},

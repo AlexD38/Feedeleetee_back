@@ -64,79 +64,68 @@ INSERT INTO
         lastname,
         mail,
         tel,
-        offer_is_available,
-        enterprise_id
+        offer_is_available
     )
 VALUES (
         'John',
         'Doe',
         'john.doe@example.com',
         '55626687',
-        false,
-        1
+        false
     ), (
         'Jane',
         'Doe',
         'jane.doe@example.com',
         '55555555',
-        false,
-        1
+        false
     ), (
         'Sophie',
         'afdde',
         'jim.smith@example.com',
         '7622156',
-        false,
-        1
+        false
     ), (
         'Jim',
         'gshggfhgfh',
         'jim.dfqdsfds@example.com',
         '34533453',
-        false,
-        1
+        false
     ), (
         'Pedro',
         'rthtyjn',
         'ped.fd@example.com',
         '35435',
-        false,
-        1
+        false
     ), (
         'Pascol',
         'mlohghf',
         'pasc.mol@example.com',
         '3545353',
-        false,
-        1
+        false
     ), (
         'fino',
         'atrez',
         'fino.dd@example.com',
         '12332',
-        false,
-        1
+        false
     ), (
         'Prout',
         'azerty',
         'prout.cul@example.com',
         '789',
-        false,
-        1
+        false
     ), (
         'Morris',
         'poiu',
         'mor.puio@example.com',
         '6456',
-        false,
-        1
+        false
     ), (
         'HAlbertine',
         'moke',
         'ha.mo@example.com',
         '654321',
-        false,
-        1
+        false
     );
 
 ----------------------------------------------------------------

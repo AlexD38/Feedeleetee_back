@@ -75,12 +75,16 @@ const post_controller = {
 		}
 	},
 	async createAppointments(req, res) {
-		const { day, timeOfDay, paymentMethod, offerId } = req.body;
+		const { day, timeOfDay, length, serviceId } = req.body;
+		const enterpriseId = req.params.id;
+		console.log(enterpriseId);
 
-		const results = await post_model.insertEnterprise(
+		const results = await post_model.insertAppointements(
 			day,
 			timeOfDay,
-			offerId
+			length,
+			serviceId,
+			enterpriseId
 		);
 		res.json(results);
 	},

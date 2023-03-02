@@ -83,6 +83,11 @@ router.post(
 	post_controller.attachClientToUser
 );
 
+router.post(
+	"/enterprises/:id(\\d+)/appointments",
+	// authentication.verifyToken,
+	post_controller.createAppointments
+);
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!! PATCH ROUTES!!!!!!!!!
@@ -98,6 +103,11 @@ router.patch(
 	"/clients/:id(\\d+)",
 	// authentication.verifyToken,
 	patch_controller.updateClient
+);
+router.patch(
+	"/enterprises/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateEnterprise
 );
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

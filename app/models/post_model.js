@@ -125,25 +125,30 @@ const post_model = {
 			console.log(error);
 		}
 	},
-	async insertAppointements(day, timeOfDay, serviceId) {
+	async insertAppointements(day, timeOfDay, length, serviceId, enterpriseId) {
 		try {
 			const sqlQuery = {
 				text: `INSERT INTO
                 appointments (
                 day,
                 time_of_day,
-                service_id,
+				length_of_appointment,
+                service_id, enterprise_id
                 )
                 VALUES 
-                ($1,$2,$3)
+                ($1,$2,$3,$4,$5)
                 `,
-				values: [day, timeOfDay, serviceId],
+				values: [day, timeOfDay, length, serviceId, enterpriseId],
 			};
+			console.log("okokokoko");
 			await client.query(sqlQuery);
 			let appointmentCreated = sqlQuery.values;
 
 			if (appointmentCreated && appointmentCreated != "undefined") {
 				console.log(`${appointmentCreated} créé en base de donnée`);
+				//! attach enterprise to appointment
+
+				//!
 			} else {
 				console.log(
 					`${appointmentCreated} n'a pas pu être entré en bdd`

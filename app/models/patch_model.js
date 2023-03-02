@@ -27,26 +27,54 @@ const patch_model = {
 	async insertClientIntoAppointment(clientId, appointmentId) {
 		// getion d'erreur avec try / catch
 		try {
-			const sqlQuery = {
-				text: `SELECT * FROM UPDATE_APPOINTMENT($1, $2);
-				;
-				`,
-				values: [clientId, appointmentId],
+			const findCLientById = {
+				text: `SELECT * FROM clients WHERE id = ($1);`,
+				values: [clientId],
 			};
-			// j'execute la query
-			const result = await client.query(sqlQuery);
-			console.log(result);
-			// je range mon client dans la variable client created
-			if (result.rowCount > 0) {
-				return {
-					success: true,
-					message: "Updated client into appointment is successfull !",
-				};
+			const resultFromClientTable = await client.query(findCLientById);
+			const clientFound = resultFromClientTable.rows[0];
+			if (!clientFound) {
+				console.log("Client not found");
+				return;
+			}
+			console.log(
+				"client found is " +
+					clientFound.firstname +
+					" " +
+					clientFound.lastname
+			);
+			// vérifier si client_id est null
+			const verifyIfClientIdIsNull = {
+				text: `SELECT client_id FROM appointments WHERE id =($1);`,
+				values: [appointmentId],
+			};
+			const resultFromClientIdColumn = await client.query(
+				verifyIfClientIdIsNull
+			);
+			const clientIdCOlumnFound = resultFromClientIdColumn.rows[0];
+			console.log(
+				"client id found is : " + clientIdCOlumnFound.client_id
+			);
+			if (clientIdCOlumnFound.client_id != null) {
+				console.log("rendez-vous déjà pris par quelqu'un");
+				return;
 			} else {
-				return {
-					success: false,
-					message: "woops... problem here",
+				// insertion du client dans le rendez-vous
+				const InsertClientIntoAppointment = {
+					text: `UPDATE appointments SET client_id = ($1) WHERE id = ($2);`,
+					values: [clientFound.id, +appointmentId],
 				};
+				const appointmentUpdated = await client.query(
+					InsertClientIntoAppointment
+				);
+				if (!appointmentUpdated.rowCount === 0) {
+					console.log("Appointment not fupdated");
+					return;
+				}
+				console.log(
+					"number of affected row : " + appointmentUpdated.rowCount
+				);
+				return appointmentUpdated;
 			}
 		} catch (error) {
 			console.error(error);

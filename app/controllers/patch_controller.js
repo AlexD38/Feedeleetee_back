@@ -29,24 +29,29 @@ const patch_controller = {
 	},
 	async insertClientIntoAppointment(req, res) {
 		try {
+			const appointmentId = req.params.id;
 			// const clientId = res.userId;
 			//! attention, une fois le front fait, prendre les clientid  depuis le token et non pas depuis le body
-			const { appointmentId, clientId } = req.body;
+			const { clientId } = req.body;
 
 			const appointmentUpdated =
 				await patch_model.insertClientIntoAppointment(
-					appointmentId,
-					clientId
+					clientId,
+					appointmentId
 				);
-
-			if (!clientId) {
+			if (!appointmentUpdated) {
+				res.status(404).json({
+					error: "Le rendez-vous n'a pas été pris",
+				});
+				return;
+			} else if (!clientId) {
 				return res.status(404).json({
 					error: "client id is not defined",
 				});
 			}
-
-			// tester avec res.send
-			res.json(appointmentUpdated);
+			res.status(200).json({
+				error: `Le rendez-vous numéro : ${appointmentId}, à bien été pris par le client numéro ${clientId}`,
+			});
 		} catch (error) {
 			console.log(error);
 			res.status(404).json({

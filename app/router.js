@@ -41,11 +41,11 @@ router.get(
 	// authentication.verifyToken,
 	get_controller.serviceInformationFromEnterprise
 );
-// router.get(
-// 	"/enterprises/:id(\\d+)/clients",
-// 	// authentication.verifyToken,
-// 	get_controller.enterpriseClients
-// );
+router.get(
+	"/enterprises/:id(\\d+)/clients",
+	// authentication.verifyToken,
+	get_controller.enterpriseClients
+);
 router.get(
 	"/enterprises/:id(\\d+)/services/appointments",
 	// authentication.verifyToken,

@@ -79,15 +79,7 @@ const get_model = {
 		try {
 			const sqlQuery = {
 				text: `
-				SELECT json_build_object('enterprise_name', enterprises.name, 'clients', json_agg(client_info))
-				FROM enterprises
-				LEFT JOIN (
-				  SELECT DISTINCT appointments.enterprise_id, json_build_object('firstname', clients.firstname, 'lastname', clients.lastname, 'mail', clients.mail, 'tel', clients.tel) AS client_info
-				  FROM appointments
-				  JOIN clients ON appointments.client_id = clients.id
-				  WHERE appointments.enterprise_id = enterprises.id AND enterprises.id = ($1)
-				) AS clients_info ON enterprises.id = clients_info.enterprise_id
-				GROUP BY enterprises.id;
+				SELECT firstname, lastname, mail, tel FROM enterprises_got_clients JOIN  clients ON clients_id=clients.id WHERE enterprises_id=($1);
 `,
 				values: [enterpriseId],
 			};

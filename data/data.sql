@@ -218,4 +218,8 @@ VALUES (
         1
     ), (0, 'rdv gratuit', '100', 1);
 
+INSERT INTO
+    enterprises_got_clients (enterprises_id, clients_id)
+VALUES (1, 1), (1, 2), (1, 3), (1, 4), (1, 5);
+
 COMMIT;

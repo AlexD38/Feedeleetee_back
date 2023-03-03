@@ -89,6 +89,7 @@ const patch_controller = {
 		try {
 			const appointmentId = req.params.id;
 			const { field, value } = req.body;
+			console.log(field, value, appointmentId);
 
 			const appointment = await patch_model.updateAppointments(
 				field,

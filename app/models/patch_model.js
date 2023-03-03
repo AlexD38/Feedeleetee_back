@@ -53,9 +53,16 @@ const patch_model = {
 			);
 			const clientIdCOlumnFound = resultFromClientIdColumn.rows[0];
 			console.log(
-				"client id found is : " + clientIdCOlumnFound.client_id
+				"client id for appointment found is : " +
+					clientIdCOlumnFound?.client_id
 			);
-			if (clientIdCOlumnFound.client_id != null) {
+			if (!clientIdCOlumnFound) {
+				console.log("le rendez-vous n'existe pas");
+				return;
+			} else if (
+				clientIdCOlumnFound.client_id != null &&
+				clientIdCOlumnFound.client_id != undefined
+			) {
 				console.log("rendez-vous déjà pris par quelqu'un");
 				return;
 			} else {

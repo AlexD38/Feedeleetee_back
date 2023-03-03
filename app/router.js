@@ -88,6 +88,16 @@ router.post(
 	// authentication.verifyToken,
 	post_controller.createAppointments
 );
+router.post(
+	"/enterprises/:id(\\d+)/offers",
+	// authentication.verifyToken,
+	post_controller.createOffer
+);
+router.post(
+	"/enterprises/:id(\\d+)/services",
+	// authentication.verifyToken,
+	post_controller.createService
+);
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!! PATCH ROUTES!!!!!!!!!
@@ -95,7 +105,7 @@ router.post(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 router.patch(
-	"/appointments/:id(\\d+)",
+	"/clients/appointments/:id(\\d+)",
 	// authentication.verifyToken,
 	patch_controller.insertClientIntoAppointment
 );
@@ -108,6 +118,26 @@ router.patch(
 	"/enterprises/:id(\\d+)",
 	// authentication.verifyToken,
 	patch_controller.updateEnterprise
+);
+router.patch(
+	"/appointments/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateAppointment
+);
+router.patch(
+	"/appointments/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateAppointment
+);
+router.patch(
+	"/services/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateService
+);
+router.patch(
+	"/offers/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateOffer
 );
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -126,12 +156,12 @@ router.delete(
 	delete_controller.deleteRecord
 );
 router.delete(
-	"enteprises/:id(\\d+)/offers/:id(\\d+)",
+	"/offers/:id(\\d+)",
 	// authentication.verifyToken,
 	delete_controller.deleteRecord
 );
 router.delete(
-	"enteprises/:id(\\d+)/services/:id(\\d+)",
+	"/services/:id(\\d+)",
 	// authentication.verifyToken,
 	delete_controller.deleteRecord
 );
@@ -141,7 +171,7 @@ router.delete(
 	delete_controller.deleteRecord
 );
 router.delete(
-	"enteprises/:id(\\d+)/appointments/:id(\\d+)",
+	"/appointments/:id(\\d+)",
 	// authentication.verifyToken,
 	delete_controller.deleteRecord
 );

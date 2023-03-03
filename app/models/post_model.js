@@ -140,15 +140,10 @@ const post_model = {
                 `,
 				values: [day, timeOfDay, length, serviceId, enterpriseId],
 			};
-			console.log("okokokoko");
-			await client.query(sqlQuery);
-			let appointmentCreated = sqlQuery.values;
-
+			const query = await client.query(sqlQuery);
+			let appointmentCreated = query;
 			if (appointmentCreated && appointmentCreated != "undefined") {
 				console.log(`${appointmentCreated} créé en base de donnée`);
-				//! attach enterprise to appointment
-
-				//!
 			} else {
 				console.log(
 					`${appointmentCreated} n'a pas pu être entré en bdd`
@@ -185,7 +180,7 @@ const post_model = {
 				console.log(`${serviceCreated} n'a pas pu être entré en bdd`);
 			}
 			const result = {
-				succes: `L'offre : ${name},${description}, ${price}, well added to database`,
+				succes: `Offer : ${name}, ${description},with price :  ${price} $, well added to database`,
 			};
 			return result;
 		} catch (error) {
@@ -225,19 +220,19 @@ const post_model = {
 			console.log(error);
 		}
 	},
-	async insertOffers(salesBeforeOffer, description, discount) {
+	async insertOffers(salesBeforeOffer, description, discount, enterpriseId) {
 		try {
 			const sqlQuery = {
 				text: `INSERT INTO
                 offers (
                 sales_before_offer,
                 description,
-                discount
+                discount, enterprise_id
                 )
                 VALUES 
-                ($1,$2,$3)
+                ($1,$2,$3, $4)
                 `,
-				values: [salesBeforeOffer, description, discount],
+				values: [salesBeforeOffer, description, discount, enterpriseId],
 			};
 			await client.query(sqlQuery);
 			let offerCreated = sqlQuery.values;

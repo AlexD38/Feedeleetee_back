@@ -87,7 +87,7 @@ CREATE TABLE
         "client_id" INTEGER REFERENCES "clients"("id") ON DELETE CASCADE,
         "service_id" INTEGER REFERENCES "services"("id") ON DELETE CASCADE NOT NULL,
         "offer_id" INTEGER REFERENCES "offers"("id") ON DELETE CASCADE,
-        "enterprise_id" INTEGER REFERENCES "enterprises"("id") ON DELETE CASCADE,
+        "enterprise_id" INTEGER REFERENCES "enterprises"("id") ON DELETE CASCADE NOT NULL,
         "created_at" timestamptz NOT NULL DEFAULT NOW(),
         "updated_at" timestamp NOT NULL DEFAULT NOW()
     );

@@ -77,7 +77,6 @@ const post_controller = {
 	async createAppointments(req, res) {
 		const { day, timeOfDay, length, serviceId } = req.body;
 		const enterpriseId = req.params.id;
-		console.log(enterpriseId);
 
 		const results = await post_model.insertAppointements(
 			day,
@@ -90,16 +89,19 @@ const post_controller = {
 	},
 	async createOffer(req, res) {
 		const { salesBeforeOffer, description, discount } = req.body;
+		const enterpriseId = req.params.id;
 
 		const results = await post_model.insertOffers(
 			salesBeforeOffer,
 			description,
-			discount
+			discount,
+			enterpriseId
 		);
 		res.json(results);
 	},
 	async createService(req, res) {
-		const { name, description, price, enterpriseId } = req.body;
+		const { name, description, price } = req.body;
+		const enterpriseId = req.params.id;
 
 		const results = await post_model.insertServices(
 			name,

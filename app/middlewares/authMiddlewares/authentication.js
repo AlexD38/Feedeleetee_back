@@ -137,17 +137,19 @@ const authMiddleware = {
 	},
 	async createUser(req, res, next) {
 		try {
-			const { firstName, lastName, mail, password } = req.body;
-
+			const { userName, mail, password } = req.body;
 			const results = await post_model.insertUsers(
-				firstName,
-				lastName,
+				userName,
 				mail,
 				password
 			);
 			if (results) {
-				res.redirect("/login");
-				next({ success: true });
+				res.status(200).json({
+					message: "user created !",
+					statusCode: 200,
+					result: results,
+				});
+				next();
 			} else {
 				return;
 			}

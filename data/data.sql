@@ -38,15 +38,13 @@ VALUES (
 
 INSERT INTO
     users (
-        first_name,
-        last_name,
+        user_name,
         mail,
         password,
         enterprise_id
     )
 VALUES (
         'Eli',
-        'Vada',
         'vada@gmail.com',
         'vada38!',
         1

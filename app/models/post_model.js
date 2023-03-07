@@ -187,21 +187,20 @@ const post_model = {
 			console.log(error);
 		}
 	},
-	async insertUsers(firstName, lastName, mail, password) {
+	async insertUsers(userName, mail, password) {
 		//! FRANCAIS ?
 		try {
 			const sqlQuery = {
 				text: `INSERT INTO
                 users (
-                first_name,
-                last_name,
+                user_name,
                 mail,
 				password
                 )
                 VALUES 
-                ($1,$2,$3, $4)
+                ($1,$2,$3)
                 `,
-				values: [firstName, lastName, mail, password],
+				values: [userName, mail, password],
 			};
 			await client.query(sqlQuery);
 			let userCreated = sqlQuery.values;
@@ -211,13 +210,13 @@ const post_model = {
 				res.json = { error: "User cannot be created." };
 			}
 			const result = {
-				succes: `Le user : ${firstName} ${lastName}, well added to database`,
+				succes: `Le user : ${userName} , well added to database`,
 			};
 			return result;
 		} catch (error) {
 			response.json("no");
 			// res.json = { error: "nope" };
-			console.log(error);
+			console.log("error" + error);
 		}
 	},
 	async insertOffers(salesBeforeOffer, description, discount, enterpriseId) {

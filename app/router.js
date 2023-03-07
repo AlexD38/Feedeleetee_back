@@ -69,7 +69,7 @@ router.get(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.post("/login", authentication.verifyUser, authentication.createToken);
-router.post("/users", authentication.createUser, authentication.createToken);
+router.post("/users", authentication.createUser);
 router.post(
 	"/enterprise",
 	// authentication.verifyToken,

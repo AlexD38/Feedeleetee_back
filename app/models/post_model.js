@@ -202,10 +202,11 @@ const post_model = {
                 `,
 				values: [userName, mail, password],
 			};
-			await client.query(sqlQuery);
-			let userCreated = sqlQuery.values;
+			let results = await client.query(sqlQuery);
+			console.log(results.rowCount);
+			const newUser = results.rowCount;
 
-			if (!userCreated) {
+			if (!newUser > 0) {
 				console.log("le user n'a pas pu être créé en base de donnéee");
 				res.json = { error: "User cannot be created." };
 			}

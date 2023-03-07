@@ -8,16 +8,15 @@ const authMiddleware = {
 	// 1- s'il n'y a pas de token déjà présent dans le header de la requête, on en crée un et on l'envoie dans le header de la requête
 	createToken(req, res, next) {
 		const token = req.header.token;
-		// console.log("token présent dans le header de la requête :", token);
-		// const currentUser = req.user;
-		// console.log("req.currentUser : ", req.currentUser);
+		console.log("token présent dans le header de la requête :", token);
+
 		if (!token) {
 			// déclaration du payload de token
 			const payload = {
 				//je prends l'id et le username du currentUser stocké dans la requête après avoir été trouvé en bdd par le précédent MW, afin que le token se crée avec les bonnes infos du user trouvé en bdd.
-				userId: res.userId,
-				enterpriseId: res.enterpriseId,
-				clientId: res.clientId,
+				userId: req.userId,
+				enterpriseId: req.enterpriseId,
+				clientId: req.clientId,
 			};
 			// déclaration du secret de token
 			const secret = process.env.SECRET ?? "sSsalazarSsSerpentard";
@@ -32,8 +31,7 @@ const authMiddleware = {
 				newToken
 			);
 			// j'envoie le token dans le header de la requête
-			req.header.token = newToken;
-			console.log("voici le header de la requête : ", req.header.token);
+			res.json({ token: newToken });
 			// je renvoie bonjour
 			console.log({ greetings: `Bonjour nouveau : ${newToken}` });
 			// et je laisse passer

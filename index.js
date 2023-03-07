@@ -2,6 +2,7 @@
 import express from "express";
 // création de server Express
 const app = express();
+import cors from "cors";
 
 // import du pkg, pour utiliser le __dirname
 import { fileURLToPath } from "url";
@@ -26,6 +27,9 @@ app.locals.siteName = "Feedeleetee";
 
 // urlencoded pour pouvoir envoyer des données du front via requête POST
 app.use(express.urlencoded({ extended: true }));
+
+// allow cors for everyone
+app.use(cors());
 
 // Express utilise la session et ses options
 app.use(

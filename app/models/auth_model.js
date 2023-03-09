@@ -1,11 +1,11 @@
 import client from "../database.js";
 
 const auth_model = {
-	async getOneClientByItsEmail(email) {
+	async getOneClientByItsEmail(mail) {
 		try {
 			const sqlQuery = {
 				text: `SELECT * FROM users WHERE mail=($1)`,
-				values: [email],
+				values: [mail],
 			};
 			const response = await client.query(sqlQuery);
 			// const response = {

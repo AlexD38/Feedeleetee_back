@@ -8,15 +8,15 @@ const authMiddleware = {
 	// 1- s'il n'y a pas de token déjà présent dans le header de la requête, on en crée un et on l'envoie dans le header de la requête
 	createToken(req, res, next) {
 		const token = req.header.token;
-		console.log("token présent dans le header de la requête :", token);
 
 		if (!token) {
+			const { enterpriseId, clientId, userId, userName } = res.locals;
 			// déclaration du payload de token
 			const payload = {
 				//je prends l'id et le username du currentUser stocké dans la requête après avoir été trouvé en bdd par le précédent MW, afin que le token se crée avec les bonnes infos du user trouvé en bdd.
-				userId: req.userId,
-				enterpriseId: req.enterpriseId,
-				clientId: req.clientId,
+				enterpriseId,
+				clientId,
+				userId,
 			};
 			// déclaration du secret de token
 			const secret = process.env.SECRET ?? "sSsalazarSsSerpentard";
@@ -31,13 +31,20 @@ const authMiddleware = {
 				newToken
 			);
 			// j'envoie le token dans le header de la requête
-			res.json({ token: newToken });
+			res.json({
+				enterpriseId,
+				clientId,
+				userId,
+				userName,
+				token: newToken,
+			});
 			// je renvoie bonjour
-			console.log({ greetings: `Bonjour nouveau : ${newToken}` });
+
 			// et je laisse passer
 			// next();
 			// je vide le header de la requête pour que le front me le renvoi.
 			// req.header.token = "";
+		} else {
 		}
 		next();
 	},
@@ -63,15 +70,15 @@ const authMiddleware = {
 	},
 	async verifyUser(req, res, next) {
 		// extraction de l'email et pwd depuis le body de la requete
-		const { email, password } = req.body;
-		// console.log(email, password);
+		const { mail, password } = req.body;
+		console.log(mail, password);
 		try {
 			// appel de la methode du datamapper qui renvoie lle user s'il le trouve
-			const mailFound = await auth_model.getOneClientByItsEmail(email);
+			const mailFound = await auth_model.getOneClientByItsEmail(mail);
 			// console.log(mailFound);
 			// si pas de user, renvoie d'error + return
 			if (!mailFound) {
-				res.json({ error: "mail not found...Mauvais identifiant" });
+				res.json({ error: "...Mauvais identifiant" });
 				return;
 			}
 			console.log("email vérifié : " + mailFound);
@@ -80,52 +87,39 @@ const authMiddleware = {
 				mailFound
 			);
 			if (!userFound) {
-				res.json({ error: "pwd not found...Mauvais identifiant" });
+				res.json({ error: "...Mauvais identifiant" });
 				return;
 			}
-			console.log(
-				"userFound is : " +
-					userFound.first_name +
-					" " +
-					userFound.last_name
-			);
-			switch (true) {
-				case userFound.enterprise_id === null:
-					// Code à exécuter si enterprise_id est nul
-					console.log("Le user n'a pas encore créé d'entreprise");
-					res.json({
-						success: true,
-						clientId: userFound.client_id,
-					});
-					break;
-				case userFound.client_id === null:
-					// Code à exécuter si client_id est nul
-					console.log("Le user n'a pas de profil client");
-					res.json({
-						success: true,
-						enterpriseId: userFound.enterprise_id,
-					});
-					break;
-				case userFound.client_id === null ||
-					userFound.enterprise_id === null:
-					// Code à exécuter si client_id est nul
-					console.log(
-						"Le user n'a pas de profil client ni d'entreprise"
-					);
-					res.json({
-						success: true,
-						enterpriseId: userFound.id,
-					});
-					break;
-				default:
-					res.json({
-						success: true,
-						userId: userFound.id,
-						enterpriseId: userFound.enterprise_id,
-						clientId: userFound.client_id,
-					});
-					// Code à exécuter si ni enterprise_id ni client_id ne sont nuls
-					console.log("Le user à un profil client et une entreprise");
+			console.log("userFound is : " + userFound.user_name);
+
+			if (
+				userFound.enterprise_id === null &&
+				userFound.client_id === null
+			) {
+				// Code à exécuter si enterprise_id est nul
+				console.log(
+					"Le user n'a pas encore créé d'entreprise ni de profil client"
+				);
+				res.locals.userId = userFound.id;
+				res.locals.userName = userFound.user_name;
+			} else if (userFound.client_id === null) {
+				// Code à exécuter si client_id est nul
+				console.log("Le user n'a pas de profil client");
+				res.locals.enterpriseId = userFound.enterprise_id;
+				res.locals.userName = userFound.user_name;
+			} else if (userFound.enterprise_id === null) {
+				// Code à exécuter si client_id est nul
+				console.log("Le user n'a pas d'entreprise");
+				res.locals.clientId = userFound.client_id;
+				res.locals.userName = userFound.user_name;
+			} else {
+				res.locals.enterpriseId = userFound.enterprise_id;
+				res.locals.clientId = userFound.client_id;
+				res.locals.userId = userFound.id;
+				res.locals.userName = userFound.user_name;
+
+				// Code à exécuter si ni enterprise_id ni client_id ne sont nuls
+				console.log("Le user à un profil client et une entreprise");
 			}
 			next();
 		} catch (error) {

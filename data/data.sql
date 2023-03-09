@@ -137,22 +137,26 @@ INSERT INTO
         name,
         description,
         price,
+        duration,
         enterprise_id
     )
 VALUES (
         'Pose complète',
         'je pose tous les ongles, dépose comprise',
         100,
+        '3h',
         1
     ), (
         'Semi Pose',
         'je pose tous les ongles d''une main',
         50,
+        '2h',
         1
     ), (
         'Pose',
         'je pose un ongle',
         25,
+        '1h30',
         1
     );
 
@@ -167,28 +171,9 @@ INSERT INTO
         day,
         time_of_day,
         service_id,
-        enterprise_id,
-        length_of_appointment
+        enterprise_id
     )
-VALUES ('01/09/2023', '9h', 1, 1, '1h'), ('02/12/2023', '10h', 2, 1, '15m'), (
-        '15/08/2023',
-        '11h',
-        3,
-        1,
-        '1h30'
-    ), (
-        '14/11/2023',
-        '12h',
-        1,
-        1,
-        '30min'
-    ), ('08/02/2023', '13h', 2, 1, '4h'), (
-        '09/05/2023',
-        '14h',
-        1,
-        1,
-        '108h'
-    ), ('29/04/2023', '15h', 3, 1, '20m');
+VALUES ('01/09/2023', '9h', 1, 1), ('02/12/2023', '10h', 2, 1), ('15/08/2023', '11h', 3, 1), ('14/11/2023', '12h', 1, 1), ('08/02/2023', '13h', 2, 1), ('09/05/2023', '14h', 1, 1), ('29/04/2023', '15h', 3, 1);
 
 ----------------------------------------------------------------
 

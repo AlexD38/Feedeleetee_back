@@ -33,7 +33,7 @@ const post_model = {
 			}
 			// je renvoie le résultat
 			const result = {
-				succes: `${firstName} ${lastName} well added to database`,
+				success: `${firstName} ${lastName} well added to database`,
 			};
 
 			return result;
@@ -44,56 +44,51 @@ const post_model = {
 	async insertEnterprise(name, address, logo, description) {
 		try {
 			const sqlQuery = {
-				text: `INSERT INTO
-                enterprises (
-                name,
-                address,
-                logo,
-                description
-                )
-                VALUES 
-                ($1,$2,$3,$4)
+				text: `INSERT INTO enterprises (name, address, logo, description)
+				VALUES ($1, $2, $3, $4)
+				RETURNING id, name, address, logo, description;
+				
                 `,
 				values: [name, address, logo, description],
 			};
-			await client.query(sqlQuery);
-			let enterpriseCreated = sqlQuery.values;
+			const results = await client.query(sqlQuery);
+			console.log(results);
+			const enterpriseCreated = results.rows[0];
 
-			if (enterpriseCreated && enterpriseCreated != "undefined") {
-				console.log(`${enterpriseCreated} créé en base de donnée`);
+			if (enterpriseCreated) {
+				console.log(`${enterpriseCreated.name} créé en base de donnée`);
 			} else {
 				console.log(
-					`${enterpriseCreated} n'a pas pu être entré en bdd`
+					`${enterpriseCreated.name} n'a pas pu être entré en bdd`
 				);
 			}
 			const result = {
-				succes: `${name} well added to database`,
-				enterpriseName: `${name}`,
+				success: `${enterpriseCreated.name} well added to database`,
+				enterprise: `${enterpriseCreated.name} with id : ${enterpriseCreated.id}`,
+				enterpriseId: enterpriseCreated.id,
 			};
 			return result;
 		} catch (error) {
 			console.log(error);
 		}
 	},
-	async insertEnterpriseIdIntoUserTable(enterpriseName, userId) {
+	async insertEnterpriseIdIntoUserTable(enterpriseId, userId) {
 		try {
 			const sqlQuery = {
-				text: `INSERT INTO
-                users (
-                enterprise_id)
-                VALUES 
-                ($1) WHERE user_id = ($2)
+				text: `UPDATE users
+				SET enterprise_id = $1
+				WHERE id = $2;
                 `,
-				values: [enterpriseName, userId],
+				values: [enterpriseId, userId],
 			};
-			await client.query(sqlQuery);
-			let enterpriseattached = sqlQuery.values;
-
-			if (!enterpriseName || !userId) {
+			const results = await client.query(sqlQuery);
+			const enterpriseAttached = results.rowCount;
+			if (enterpriseAttached < 1) {
 				res.json({ error: "Enterprise cannot be attached" });
 			}
+			console.log(`${userId} just added an enterprise to its profile !`);
 			const result = {
-				succes: `${enterpriseName} has been created by user : ${userId}`,
+				success: `You just added your enterprise to you profile, congrats ! ;)`,
 			};
 			return result;
 		} catch (error) {
@@ -118,7 +113,7 @@ const post_model = {
 				res.json({ error: "Client cannot be attached" });
 			}
 			const result = {
-				succes: `${clientId} has been created by user : ${userId}`,
+				success: `${clientId} has been created by user : ${userId}`,
 			};
 			return result;
 		} catch (error) {
@@ -150,7 +145,7 @@ const post_model = {
 				);
 			}
 			const result = {
-				succes: `${day} ${timeOfDay} well added to database`,
+				success: `${day} ${timeOfDay} well added to database`,
 			};
 			return result;
 		} catch (error) {
@@ -180,7 +175,7 @@ const post_model = {
 				console.log(`${serviceCreated} n'a pas pu être entré en bdd`);
 			}
 			const result = {
-				succes: `Offer : ${name}, ${description},with price :  ${price} $, well added to database`,
+				success: `Offer : ${name}, ${description},with price :  ${price} $, well added to database`,
 			};
 			return result;
 		} catch (error) {
@@ -211,7 +206,7 @@ const post_model = {
 				res.json = { error: "User cannot be created." };
 			}
 			const result = {
-				succes: `Le user : ${userName} , well added to database`,
+				success: `Le user : ${userName} , well added to database`,
 			};
 			return result;
 		} catch (error) {
@@ -243,7 +238,7 @@ const post_model = {
 				console.log(`${offerCreated} n'a pas pu être entré en bdd`);
 			}
 			const result = {
-				succes: `L'offre : ${description}, (- ${discount}%), well added to database`,
+				success: `L'offre : ${description}, (- ${discount}%), well added to database`,
 			};
 			return result;
 		} catch (error) {

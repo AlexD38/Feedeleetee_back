@@ -18,7 +18,7 @@ const delete_model = {
 			}
 			// je renvoie le résultat
 			const result = {
-				succes: `record number : ${recordId} from ${tableName} is now deleted from database`,
+				success: `record number : ${recordId} from ${tableName} is now deleted from database`,
 			};
 
 			return result;

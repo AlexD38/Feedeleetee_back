@@ -16,7 +16,7 @@ const patch_model = {
 
 			// je renvoie le résultat
 			const result = {
-				succes: `${field} is now : ${tableUpdated}, it's been well updated into database for the client number ${clientId}`,
+				success: `${field} is now : ${tableUpdated}, it's been well updated into database for the client number ${clientId}`,
 			};
 			return result;
 		} catch (error) {
@@ -102,7 +102,7 @@ const patch_model = {
 
 			// je renvoie le résultat
 			const result = {
-				succes: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${enterpriseId}`,
+				success: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${enterpriseId}`,
 			};
 			return result;
 		} catch (error) {
@@ -123,7 +123,7 @@ const patch_model = {
 
 			// je renvoie le résultat
 			const result = {
-				succes: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${appointmentId}`,
+				success: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${appointmentId}`,
 			};
 			return result;
 		} catch (error) {
@@ -144,7 +144,7 @@ const patch_model = {
 
 			// je renvoie le résultat
 			const result = {
-				succes: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${offerId}`,
+				success: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${offerId}`,
 			};
 			return result;
 		} catch (error) {
@@ -165,7 +165,7 @@ const patch_model = {
 
 			// je renvoie le résultat
 			const result = {
-				succes: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${serviceId}`,
+				success: ` ${field} is now : ${tableUpdated}. It has been well updated into database for the enterprise number ${serviceId}`,
 			};
 			return result;
 		} catch (error) {

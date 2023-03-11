@@ -17,35 +17,52 @@ const post_controller = {
 			results.clientId
 		);
 	},
-	async createEnterprise(req, res) {
-		const { name, address, logo, description } = req.body;
+	async createEnterprise(req, res, next) {
+		try {
+			const {
+				enterpriseName,
+				enterpriseAddress,
+				enterpriseLogo,
+				enterpriseDesc,
+			} = req.body;
 
-		const results = await post_model.insertEnterprise(
-			name,
-			address,
-			logo,
-			description
-		);
-		res.json(results);
-		const enterpriseName = window.localStorage.setItem(
-			"enterprise's name created",
-			results.enterpriseName
-		);
+			console.log("xxxxxx");
+			const results = await post_model.insertEnterprise(
+				enterpriseName,
+				enterpriseAddress,
+				enterpriseLogo,
+				enterpriseDesc
+			);
+
+			res.locals.enterpriseCreated = results;
+			next();
+		} catch (error) {
+			res.status(500).send(error);
+		}
 	},
 	async attachEnterpriseToUser(req, res) {
 		try {
+			console.log("coucou");
+			console.log(
+				"user authenticated : " +
+					res.locals.user.userName +
+					" with id : " +
+					res.locals.user.user +
+					" enterprise just created by the authenticated user :  " +
+					res.locals.enterpriseCreated?.enterprise
+			);
+			console.log(
+				"enterprise id : " + res.locals.enterpriseCreated?.enterpriseId
+			);
+			const userId = res.locals.user.user;
+			const enterpriseId = res.locals.enterpriseCreated?.enterpriseId;
 			if (userId) {
-				// ! const userId = récupérer depuis le token apres l'authentification du user
-				const enterpriseName = windows.localStorage.getItem(
-					"enterprise's name created"
-				);
-				// console.log(enterpriseCreated.enterpriseName);
 				const userCreateEnterprise =
 					await post_model.insertEnterpriseIdIntoUserTable(
-						enterpriseName,
+						enterpriseId,
 						userId
 					);
-				res.json(results);
+				res.json(userCreateEnterprise);
 			} else {
 				res.json({ error: "You gotta be connected to do this..." });
 			}

@@ -17,6 +17,7 @@ const authMiddleware = {
 				enterpriseId,
 				clientId,
 				userId,
+				userName,
 			};
 			// déclaration du secret de token
 			const secret = process.env.SECRET ?? "sSsalazarSsSerpentard";
@@ -49,29 +50,46 @@ const authMiddleware = {
 		next();
 	},
 	verifyToken: (req, res, next) => {
-		const token = req.header.token;
+		const token = req.headers.token;
+		console.log("token envoyé depuis le front : " + token);
 		if (!token) {
-			res.json({ succes: false, message: "there's no token to verify" });
+			res.json({
+				authenticated: false,
+				message: "there's no token to verify",
+			});
 			return;
 		}
-		console.log({ greetings: `Bonjour déjà créé : ${token}` });
-		jwt.verify(token, process.env.SECRET, (err, decoded) => {
-			if (err) {
-				return res.status(500).send({
-					auth: false,
-					message: "Failed to authenticate token.",
-				});
+		console.log({ greetings: `Token déjà créé : ${token}` });
+		jwt.verify(
+			token,
+			process.env.SECRET ?? "sSsalazarSsSerpentard",
+			(err, decoded) => {
+				if (err) {
+					res.status(500).send({
+						auth: false,
+						message: "Failed to authenticate token.",
+					});
+					return;
+				} else {
+					const { userId, userName, clientId } = decoded;
+					console.log("userId:", userId);
+					console.log("clientId:", clientId);
+					console.log("name:", userName);
+					// console.log(decoded);
+					res.locals.user = {
+						authenticated: true,
+						user: userId,
+						userName: userName,
+					};
+				}
 			}
-			const { userId, name } = decoded;
-			console.log({ userId, name });
-			// si token il y a , le vérifier, extraire les données (l'id du user) si c'est good, next sinon renvoi d'erreur grace aux arg du token.
-		});
+		);
 		next();
 	},
 	async verifyUser(req, res, next) {
 		// extraction de l'email et pwd depuis le body de la requete
 		const { mail, password } = req.body;
-		console.log(mail, password);
+		// console.log(mail, password);
 		try {
 			// appel de la methode du datamapper qui renvoie lle user s'il le trouve
 			const mailFound = await auth_model.getOneClientByItsEmail(mail);
@@ -81,7 +99,7 @@ const authMiddleware = {
 				res.json({ error: "...Mauvais identifiant" });
 				return;
 			}
-			console.log("email vérifié : " + mailFound);
+			console.log("email vérifié");
 			const userFound = await auth_model.getOneClientByItsPwd(
 				password,
 				mailFound
@@ -90,7 +108,7 @@ const authMiddleware = {
 				res.json({ error: "...Mauvais identifiant" });
 				return;
 			}
-			console.log("userFound is : " + userFound.user_name);
+			console.log("user found is : " + userFound.user_name);
 
 			if (
 				userFound.enterprise_id === null &&
@@ -105,11 +123,13 @@ const authMiddleware = {
 			} else if (userFound.client_id === null) {
 				// Code à exécuter si client_id est nul
 				console.log("Le user n'a pas de profil client");
+				res.locals.userId = userFound.id;
 				res.locals.enterpriseId = userFound.enterprise_id;
 				res.locals.userName = userFound.user_name;
 			} else if (userFound.enterprise_id === null) {
 				// Code à exécuter si client_id est nul
 				console.log("Le user n'a pas d'entreprise");
+				res.locals.userId = userFound.id;
 				res.locals.clientId = userFound.client_id;
 				res.locals.userName = userFound.user_name;
 			} else {
@@ -121,6 +141,7 @@ const authMiddleware = {
 				// Code à exécuter si ni enterprise_id ni client_id ne sont nuls
 				console.log("Le user à un profil client et une entreprise");
 			}
+			// console.log(res.locals);
 			next();
 		} catch (error) {
 			console.log(error);

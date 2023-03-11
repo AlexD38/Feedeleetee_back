@@ -16,7 +16,7 @@ const router = express.Router();
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.get(
 	"/mydashboard",
-	// authentication.verifyToken,
+	authentication.verifyToken,
 	get_controller.getAllInfosForMyEnterprise
 );
 router.get(
@@ -72,7 +72,7 @@ router.post("/login", authentication.verifyUser, authentication.createToken);
 router.post("/users", authentication.createUser);
 router.post(
 	"/enterprise",
-	// authentication.verifyToken,
+	authentication.verifyToken,
 	post_controller.createEnterprise,
 	post_controller.attachEnterpriseToUser
 );

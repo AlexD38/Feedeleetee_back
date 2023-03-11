@@ -16,7 +16,7 @@ const router = express.Router();
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.get(
 	"/mydashboard",
-	authentication.verifyToken,
+	// authentication.verifyToken,
 	get_controller.getAllInfosForMyEnterprise
 );
 router.get(
@@ -25,8 +25,8 @@ router.get(
 	get_controller.clientsAppointments
 );
 router.get(
-	"/enterprise/:id(\\d+)",
-	// authentication.verifyToken,
+	"/enterprise/",
+	authentication.verifyToken,
 	get_controller.oneEnterpriseInformation
 );
 

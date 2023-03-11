@@ -71,15 +71,19 @@ const authMiddleware = {
 					});
 					return;
 				} else {
-					const { userId, userName, clientId } = decoded;
+					const { userId, userName, clientId, enterpriseId } =
+						decoded;
 					console.log("userId:", userId);
 					console.log("clientId:", clientId);
 					console.log("name:", userName);
+					console.log("enterprise:", enterpriseId);
 					// console.log(decoded);
 					res.locals.user = {
 						authenticated: true,
 						user: userId,
 						userName: userName,
+						enterpriseId: enterpriseId,
+						clientId: clientId,
 					};
 				}
 			}

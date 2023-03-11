@@ -76,7 +76,8 @@ const get_controller = {
 		}
 	},
 	async oneEnterpriseInformation(req, res) {
-		const enterpriseId = req.params.id;
+		console.log(res.locals.user.enterpriseId);
+		const enterpriseId = res.locals.user.enterpriseId;
 		try {
 			let enterprise = await dataMapper.getOneEnterprise(enterpriseId);
 			if (enterprise) {

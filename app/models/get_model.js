@@ -12,7 +12,6 @@ const get_model = {
 				json_agg(json_build_object(
 				  'day', day, 
 				  'time_of_day', time_of_day, 
-				  'length_of_appointment', length_of_appointment, 
 				  'appointments.service_id',appointments.service_id, 
 				  'services.name', services.name, 
 				  'services.description', COALESCE(services.description, ''), 

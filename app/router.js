@@ -15,11 +15,11 @@ const router = express.Router();
 //!!!!!!! GET ROUTES !!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-router.get(
-	"/mydashboard",
-	// authentication.verifyToken,
-	get_controller.getAllInfosForMyEnterprise
-);
+// router.get(
+// 	"/mydashboard",
+// 	// authentication.verifyToken,
+// 	get_controller.getAllInfosForMyEnterprise
+// );
 router.get(
 	"/clients/:id(\\d+)/appointments",
 	// authentication.verifyToken,
@@ -39,7 +39,7 @@ router.get(
 
 router.get(
 	"/enterprises/services",
-	// authentication.verifyToken,
+	authentication.verifyToken,
 	get_controller.serviceInformationFromEnterprise
 );
 router.get(

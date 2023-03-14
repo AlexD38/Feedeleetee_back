@@ -91,7 +91,7 @@ const get_controller = {
 	},
 	async serviceInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = req.params.id;
+			const enterpriseId = res.locals.user.enterpriseId;
 			let services = await dataMapper.getServicesFromEnterprise(
 				enterpriseId
 			);
@@ -106,7 +106,7 @@ const get_controller = {
 	},
 	async appointmentInformationFromServices(req, res) {
 		try {
-			const enterpriseId = req.params.id;
+			const enterpriseId = res.locals;
 			let services = await dataMapper.getAppointmentsFromServices(
 				enterpriseId
 			);
@@ -121,7 +121,7 @@ const get_controller = {
 	},
 	async offerInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = req.params.id;
+			const enterpriseId = res.locals;
 			let offers = await dataMapper.getOffersFromEnterprises(
 				enterpriseId
 			);

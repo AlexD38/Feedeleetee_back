@@ -4,6 +4,7 @@ import get_controller from "./controllers/get_controller.js";
 import patch_controller from "./controllers/patch_controller.js";
 import post_controller from "./controllers/post_controller.js";
 import authentication from "./middlewares/authMiddlewares/authentication.js";
+
 // import signController from "./controllers/sign_controller.js";
 
 const app = express();
@@ -37,13 +38,13 @@ router.get(
 );
 
 router.get(
-	"/enterprises/:id(\\d+)/services",
+	"/enterprises/services",
 	// authentication.verifyToken,
 	get_controller.serviceInformationFromEnterprise
 );
 router.get(
-	"/enterprises/:id(\\d+)/clients",
-	// authentication.verifyToken,
+	"/enterprises/clients",
+	authentication.verifyToken,
 	get_controller.enterpriseClients
 );
 router.get(

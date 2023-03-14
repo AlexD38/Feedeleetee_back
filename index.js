@@ -3,6 +3,7 @@ import express from "express";
 // création de server Express
 const app = express();
 import cors from "cors";
+// utilisation de multer pour l'envioe de fichiers sur le server
 
 // import du pkg, pour utiliser le __dirname
 import { fileURLToPath } from "url";
@@ -26,6 +27,8 @@ const PORT = process.env.PORT || 4000;
 app.locals.siteName = "Feedeleetee";
 
 // urlencoded pour pouvoir envoyer des données du front via requête POST
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // allow cors for everyone

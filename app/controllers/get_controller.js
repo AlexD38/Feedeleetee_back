@@ -33,7 +33,7 @@ const get_controller = {
 	},
 	async enterpriseClients(req, res) {
 		try {
-			const enterpriseId = req.params.id;
+			const enterpriseId = res.locals.user.enterpriseId;
 			let enterpriseClients = await dataMapper.getclientsFromEnterprise(
 				enterpriseId
 			);

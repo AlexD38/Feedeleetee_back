@@ -17,32 +17,31 @@ const post_controller = {
 			results.clientId
 		);
 	},
+
 	async createEnterprise(req, res, next) {
 		try {
 			const {
 				enterpriseName,
 				enterpriseAddress,
-				enterpriseLogo,
 				enterpriseDesc,
+				enterpriseLogo,
 			} = req.body;
 
-			console.log("xxxxxx");
 			const results = await post_model.insertEnterprise(
 				enterpriseName,
 				enterpriseAddress,
 				enterpriseLogo,
 				enterpriseDesc
 			);
-
 			res.locals.enterpriseCreated = results;
 			next();
 		} catch (error) {
 			res.status(500).send(error);
 		}
 	},
+
 	async attachEnterpriseToUser(req, res) {
 		try {
-			console.log("coucou");
 			console.log(
 				"user authenticated : " +
 					res.locals.user.userName +

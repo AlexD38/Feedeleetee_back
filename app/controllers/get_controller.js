@@ -104,14 +104,14 @@ const get_controller = {
 			console.log(error);
 		}
 	},
-	async appointmentInformationFromServices(req, res) {
+	async appointmentInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = res.locals;
-			let services = await dataMapper.getAppointmentsFromServices(
+			const enterpriseId = res.locals.user.enterpriseId;
+			let appointments = await dataMapper.getAppointmentsFromEnterprise(
 				enterpriseId
 			);
-			if (services) {
-				res.json(services);
+			if (appointments) {
+				res.json(appointments);
 			} else {
 				console.log(error);
 			}
@@ -121,7 +121,7 @@ const get_controller = {
 	},
 	async offerInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = res.locals;
+			const enterpriseId = res.locals.user.enterpriseId;
 			let offers = await dataMapper.getOffersFromEnterprises(
 				enterpriseId
 			);

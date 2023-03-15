@@ -48,13 +48,13 @@ router.get(
 	get_controller.enterpriseClients
 );
 router.get(
-	"/enterprises/:id(\\d+)/services/appointments",
-	// authentication.verifyToken,
-	get_controller.appointmentInformationFromServices
+	"/enterprises/appointments",
+	authentication.verifyToken,
+	get_controller.appointmentInformationFromEnterprise
 );
 router.get(
-	"/enterprises/:id(\\d+)/offers",
-	// authentication.verifyToken,
+	"/enterprises/offers",
+	authentication.verifyToken,
 	get_controller.offerInformationFromEnterprise
 );
 

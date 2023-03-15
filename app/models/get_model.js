@@ -112,38 +112,16 @@ const get_model = {
 			console.error(error);
 		}
 	},
-	async getAppointmentsFromServices(enterpriseId) {
+	async getAppointmentsFromEnterprise(enterpriseId) {
 		try {
 			const sqlQuery = {
-				text: `SELECT json_build_object(
-				'nom de l entreprise', enterprises.name,
-				'services', (
-				  SELECT json_agg(json_build_object(
-									'nom du service', services.name, 
-									'description', services.description, 
-									'price', services.price,
-									'appointments', (
-									  SELECT json_agg(json_build_object(
-														  'day', appointments.day,
-														  'heure du rendez-vous', appointments.time_of_day,
-														  'durée du rendez-vous', appointments.length_of_appointment
-														))
-									  FROM appointments
-									  WHERE appointments.service_id = services.id
-									)
-								  ))
-				  FROM services
-				  WHERE services.enterprise_id = enterprises.id
-				  GROUP BY enterprises.id
-				)
-			  ) AS entreprise_et_services
-	   FROM enterprises
-	   WHERE enterprises.id = ($1);
+				text: `SELECT day, time_of_day FROM appointments  WHERE enterprise_id = $1;
 	   `,
 				values: [enterpriseId],
 			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
+			// console.log(response.rows);
 			return data;
 		} catch (error) {
 			console.error(error);
@@ -155,8 +133,8 @@ const get_model = {
 				text: `SELECT json_build_object(
 					'nom de l entreprise', enterprises.name,
 					'offers', json_agg(json_build_object(
-										'description de l''offre', offers.description, 
-										'réduction sur prix en pourcentage', offers.discount
+										'description', offers.description, 
+										'discount', offers.discount
 									  ))
 				  ) AS entreprise_et_services
 		   FROM offers

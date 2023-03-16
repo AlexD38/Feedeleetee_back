@@ -78,7 +78,7 @@ const get_model = {
 		try {
 			const sqlQuery = {
 				text: `
-				SELECT firstname, lastname, mail, tel FROM enterprises_got_clients JOIN  clients ON clients_id=clients.id WHERE enterprises_id=($1);
+				SELECT id,  firstname, lastname, mail, tel FROM enterprises_got_clients JOIN  clients ON clients_id=clients.id WHERE enterprises_id=($1);
 `,
 				values: [enterpriseId],
 			};
@@ -115,7 +115,7 @@ const get_model = {
 	async getAppointmentsFromEnterprise(enterpriseId) {
 		try {
 			const sqlQuery = {
-				text: `SELECT day, time_of_day FROM appointments  WHERE enterprise_id = $1;
+				text: `SELECT id,  day, time_of_day FROM appointments  WHERE enterprise_id = $1;
 	   `,
 				values: [enterpriseId],
 			};

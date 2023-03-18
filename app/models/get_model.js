@@ -115,7 +115,7 @@ const get_model = {
 	async getAppointmentsFromEnterprise(enterpriseId) {
 		try {
 			const sqlQuery = {
-				text: `SELECT id,  day, time_of_day FROM appointments  WHERE enterprise_id = $1;
+				text: `SELECT appointments.id,  day, time_of_day, client_id, firstname, lastname, mail, tel FROM appointments   left JOIN clients ON client_id = clients.id WHERE appointments.enterprise_id = ($1);
 	   `,
 				values: [enterpriseId],
 			};

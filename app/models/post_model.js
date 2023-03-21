@@ -52,7 +52,7 @@ const post_model = {
 				values: [name, address, logo, description],
 			};
 			const results = await client.query(sqlQuery);
-			console.log(results);
+			// console.log(results);
 			const enterpriseCreated = results.rows[0];
 
 			if (enterpriseCreated) {
@@ -86,9 +86,12 @@ const post_model = {
 			if (enterpriseAttached < 1) {
 				res.json({ error: "Enterprise cannot be attached" });
 			}
-			console.log(`${userId} just added an enterprise to its profile !`);
+			console.log(
+				`${userId} just added an enterprise number ${sqlQuery.values[0]} to its profile !`
+			);
 			const result = {
 				success: `You just added your enterprise to you profile, congrats ! ;)`,
+				enterpriseId: sqlQuery.values[0],
 			};
 			return result;
 		} catch (error) {

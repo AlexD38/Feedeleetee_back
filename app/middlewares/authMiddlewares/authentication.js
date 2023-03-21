@@ -51,7 +51,7 @@ const authMiddleware = {
 	},
 	verifyToken: (req, res, next) => {
 		const token = req.headers.token;
-		console.log("token envoyé depuis le front : " + token);
+		// console.log(req.headers.enterpriseid);
 		if (!token) {
 			res.json({
 				authenticated: false,
@@ -59,7 +59,7 @@ const authMiddleware = {
 			});
 			return;
 		}
-		console.log({ greetings: `Token déjà créé : ${token}` });
+		// console.log({ greetings: `Token déjà créé : ${token}` });
 		jwt.verify(
 			token,
 			process.env.SECRET ?? "sSsalazarSsSerpentard",
@@ -76,8 +76,9 @@ const authMiddleware = {
 					console.log("userId:", userId);
 					console.log("clientId:", clientId);
 					console.log("name:", userName);
-					console.log("enterprise:", enterpriseId);
-					// console.log(decoded);
+					console.log("enterprise:", req.headers.enterpriseid);
+					console.log(decoded);
+
 					res.locals.user = {
 						authenticated: true,
 						user: userId,
@@ -85,6 +86,11 @@ const authMiddleware = {
 						enterpriseId: enterpriseId,
 						clientId: clientId,
 					};
+					if (!enterpriseId) {
+						res.locals.user.enterpriseId = req.headers.enterpriseid;
+						// console.log("enterpriseId récupéré depuis le front");
+					}
+					// console.log("locals : ", res.locals.user);
 				}
 			}
 		);

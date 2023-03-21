@@ -50,9 +50,9 @@ const post_controller = {
 					" enterprise just created by the authenticated user :  " +
 					res.locals.enterpriseCreated?.enterprise
 			);
-			console.log(
-				"enterprise id : " + res.locals.enterpriseCreated?.enterpriseId
-			);
+			// console.log(
+			// 	"enterprise id : " + res.locals.enterpriseCreated?.enterpriseId
+			// );
 			const userId = res.locals.user.user;
 			const enterpriseId = res.locals.enterpriseCreated?.enterpriseId;
 			if (userId) {
@@ -61,7 +61,7 @@ const post_controller = {
 						enterpriseId,
 						userId
 					);
-				res.json(userCreateEnterprise);
+				res.json({ userCreateEnterprise, enterpriseId });
 			} else {
 				res.json({ error: "You gotta be connected to do this..." });
 			}

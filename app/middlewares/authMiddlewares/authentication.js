@@ -52,6 +52,7 @@ const authMiddleware = {
 	verifyToken: (req, res, next) => {
 		const token = req.headers.token;
 		// console.log(req.headers.enterpriseid);
+		console.log(req.headers);
 		if (!token) {
 			res.json({
 				authenticated: false,

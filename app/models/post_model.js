@@ -123,31 +123,28 @@ const post_model = {
 			console.log(error);
 		}
 	},
-	async insertAppointements(day, timeOfDay, length, serviceId, enterpriseId) {
+	async insertAppointements(day, timeOfDay, serviceId, enterpriseId) {
 		try {
 			const sqlQuery = {
-				text: `INSERT INTO
-                appointments (
-                day,
-                time_of_day,
-				length_of_appointment,
-                service_id, enterprise_id
-                )
-                VALUES 
-                ($1,$2,$3,$4,$5)
-                `,
-				values: [day, timeOfDay, length, serviceId, enterpriseId],
+				text: `INSERT INTO appointments (day, time_of_day, service_id, enterprise_id)
+				VALUES ($1, $2, $3, $4)
+				RETURNING *`,
+				values: [day, timeOfDay, serviceId, enterpriseId],
 			};
-			const query = await client.query(sqlQuery);
-			let appointmentCreated = query;
-			if (appointmentCreated && appointmentCreated != "undefined") {
-				console.log(`${appointmentCreated} créé en base de donnée`);
+			const appointmentCreated = await client.query(sqlQuery);
+			const results = appointmentCreated.rows[0];
+			console.log(results);
+			if (results && results != "undefined") {
+				console.log(
+					`${results.day}, à ${results.time_of_day}h créé en base de donnée`
+				);
 			} else {
 				console.log(
 					`${appointmentCreated} n'a pas pu être entré en bdd`
 				);
 			}
 			const result = {
+				results,
 				success: `${day} ${timeOfDay} well added to database`,
 			};
 			return result;

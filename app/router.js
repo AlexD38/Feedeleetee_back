@@ -85,8 +85,8 @@ router.post(
 );
 
 router.post(
-	"/enterprises/:id(\\d+)/appointments",
-	// authentication.verifyToken,
+	"/enterprises/appointments",
+	authentication.verifyToken,
 	post_controller.createAppointments
 );
 router.post(

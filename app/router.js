@@ -4,11 +4,26 @@ import get_controller from "./controllers/get_controller.js";
 import patch_controller from "./controllers/patch_controller.js";
 import post_controller from "./controllers/post_controller.js";
 import authentication from "./middlewares/authMiddlewares/authentication.js";
+import multer from "multer";
 
 // import signController from "./controllers/sign_controller.js";
 
 const app = express();
 const router = express.Router();
+//config de multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+// création de l'instance de multer
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -77,6 +92,7 @@ router.post(
   post_controller.createEnterprise,
   post_controller.attachEnterpriseToUser
 );
+
 router.post(
   "/clients",
   // authentication.verifyToken,
@@ -90,8 +106,8 @@ router.post(
   post_controller.createAppointments
 );
 router.post(
-  "/enterprises/:id(\\d+)/offers",
-  // authentication.verifyToken,
+  "/enterprises/offers",
+  authentication.verifyToken,
   post_controller.createOffer
 );
 router.post(
@@ -99,6 +115,7 @@ router.post(
   // authentication.verifyToken,
   post_controller.createService
 );
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!! PATCH ROUTES!!!!!!!!!

@@ -27,7 +27,6 @@ const PORT = process.env.PORT || 4000;
 app.locals.siteName = "Feedeleetee";
 
 // urlencoded pour pouvoir envoyer des données du front via requête POST
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -134,26 +134,22 @@ VALUES (
 
 INSERT INTO
     services (
-        name,
         description,
         price,
         duration,
         enterprise_id
     )
 VALUES (
-        'Pose complète',
         'je pose tous les ongles, dépose comprise',
         100,
         '3h',
         1
     ), (
-        'Semi Pose',
         'je pose tous les ongles d''une main',
         50,
         '2h',
         1
     ), (
-        'Pose',
         'je pose un ongle',
         25,
         '1h30',

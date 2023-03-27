@@ -115,13 +115,14 @@ const post_controller = {
     res.json(results);
   },
   async createService(req, res) {
-    const { name, description, price } = req.body;
-    const enterpriseId = req.params.id;
+    const { description, price, duration } = req.body.data;
+    console.log(req.body);
+    const enterpriseId = res.locals.user.enterpriseId;
 
     const results = await post_model.insertServices(
-      name,
       description,
       price,
+      duration,
       enterpriseId
     );
     res.json(results);

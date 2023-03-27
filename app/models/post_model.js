@@ -148,30 +148,31 @@ const post_model = {
       console.log(error);
     }
   },
-  async insertServices(name, description, price, enterpriseId) {
+  async insertServices(description, price, duration, enterpriseId) {
     try {
       const sqlQuery = {
         text: `INSERT INTO
                 services (
-                name,
                 description,
-                price, enterprise_id
+                price, duration, enterprise_id
                 )
                 VALUES 
-                ($1,$2,$3,$4)
+                ($1,$2,$3,$4) RETURNING *
                 `,
-        values: [name, description, price, enterpriseId],
+        values: [description, price, duration, enterpriseId],
       };
-      await client.query(sqlQuery);
-      let serviceCreated = sqlQuery.values;
+      const results = await client.query(sqlQuery);
+      let serviceCreated = results.rows[0];
 
       if (serviceCreated && serviceCreated != "undefined") {
-        console.log(`${serviceCreated} créé en base de donnée`);
+        console.log(serviceCreated);
+        console.log(`Service créé en base de donnée`);
       } else {
         console.log(`${serviceCreated} n'a pas pu être entré en bdd`);
       }
       const result = {
-        success: `Offer : ${name}, ${description},with price :  ${price} $, well added to database`,
+        success: `Offer : ${description},with price :  ${price} $, well added to database`,
+        serviceCreated,
       };
       return result;
     } catch (error) {

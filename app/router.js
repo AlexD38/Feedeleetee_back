@@ -111,8 +111,8 @@ router.post(
   post_controller.createOffer
 );
 router.post(
-  "/enterprises/:id(\\d+)/services",
-  // authentication.verifyToken,
+  "/enterprises/services",
+  authentication.verifyToken,
   post_controller.createService
 );
 

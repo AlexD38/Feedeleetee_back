@@ -12,17 +12,17 @@ const app = express();
 const router = express.Router();
 //config de multer
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
-  },
+	destination: function (req, file, cb) {
+		cb(null, "uploads/");
+	},
+	filename: function (req, file, cb) {
+		cb(null, file.fieldname + "-" + Date.now());
+	},
 });
 // création de l'instance de multer
 const upload = multer({
-  storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+	storage: storage,
+	limits: { fileSize: 5 * 1024 * 1024 },
 });
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -30,53 +30,53 @@ const upload = multer({
 //!!!!!!! GET ROUTES !!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// router.get(
-// 	"/mydashboard",
-// 	// authentication.verifyToken,
-// 	get_controller.getAllInfosForMyEnterprise
-// );
 router.get(
-  "/clients/:id(\\d+)/appointments",
-  // authentication.verifyToken,
-  get_controller.clientsAppointments
+	"/QuickView",
+	authentication.verifyToken,
+	get_controller.getAllInfosForMyEnterprise
 );
 router.get(
-  "/enterprise/",
-  authentication.verifyToken,
-  get_controller.oneEnterpriseInformation
+	"/clients/:id(\\d+)/appointments",
+	// authentication.verifyToken,
+	get_controller.clientsAppointments
 );
-
 router.get(
-  "/enterprises",
-  // authentication.verifyToken,
-  get_controller.enterpriseInformation
+	"/enterprise/",
+	authentication.verifyToken,
+	get_controller.oneEnterpriseInformation
 );
 
 router.get(
-  "/enterprises/services",
-  authentication.verifyToken,
-  get_controller.serviceInformationFromEnterprise
-);
-router.get(
-  "/enterprises/clients",
-  authentication.verifyToken,
-  get_controller.enterpriseClients
-);
-router.get(
-  "/enterprises/appointments",
-  authentication.verifyToken,
-  get_controller.appointmentInformationFromEnterprise
-);
-router.get(
-  "/enterprises/offers",
-  authentication.verifyToken,
-  get_controller.offerInformationFromEnterprise
+	"/enterprises",
+	// authentication.verifyToken,
+	get_controller.enterpriseInformation
 );
 
 router.get(
-  "/clients/:id(\\d+)",
-  // authentication.verifyToken,
-  get_controller.clientInformation
+	"/enterprises/services",
+	authentication.verifyToken,
+	get_controller.serviceInformationFromEnterprise
+);
+router.get(
+	"/enterprises/clients",
+	authentication.verifyToken,
+	get_controller.enterpriseClients
+);
+router.get(
+	"/enterprises/appointments",
+	authentication.verifyToken,
+	get_controller.appointmentInformationFromEnterprise
+);
+router.get(
+	"/enterprises/offers",
+	authentication.verifyToken,
+	get_controller.offerInformationFromEnterprise
+);
+
+router.get(
+	"/clients/:id(\\d+)",
+	// authentication.verifyToken,
+	get_controller.clientInformation
 );
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -87,33 +87,33 @@ router.get(
 router.post("/login", authentication.verifyUser, authentication.createToken);
 router.post("/users", authentication.createUser);
 router.post(
-  "/enterprise",
-  authentication.verifyToken,
-  post_controller.createEnterprise,
-  post_controller.attachEnterpriseToUser
+	"/enterprise",
+	authentication.verifyToken,
+	post_controller.createEnterprise,
+	post_controller.attachEnterpriseToUser
 );
 
 router.post(
-  "/clients",
-  // authentication.verifyToken,
-  post_controller.createClient,
-  post_controller.attachClientToUser
+	"/clients",
+	// authentication.verifyToken,
+	post_controller.createClient,
+	post_controller.attachClientToUser
 );
 
 router.post(
-  "/enterprises/appointments",
-  authentication.verifyToken,
-  post_controller.createAppointments
+	"/enterprises/appointments",
+	authentication.verifyToken,
+	post_controller.createAppointments
 );
 router.post(
-  "/enterprises/offers",
-  authentication.verifyToken,
-  post_controller.createOffer
+	"/enterprises/offers",
+	authentication.verifyToken,
+	post_controller.createOffer
 );
 router.post(
-  "/enterprises/services",
-  authentication.verifyToken,
-  post_controller.createService
+	"/enterprises/services",
+	authentication.verifyToken,
+	post_controller.createService
 );
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -123,35 +123,35 @@ router.post(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 router.patch(
-  "/clients/appointments/:id(\\d+)",
-  // authentication.verifyToken,
-  patch_controller.insertClientIntoAppointment
+	"/clients/appointments/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.insertClientIntoAppointment
 );
 router.patch(
-  "/clients/:id(\\d+)",
-  // authentication.verifyToken,
-  patch_controller.updateClient
+	"/clients/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateClient
 );
 router.patch(
-  "/enterprises/:id(\\d+)",
-  // authentication.verifyToken,
-  patch_controller.updateEnterprise
+	"/enterprises/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateEnterprise
 );
 router.patch(
-  "/appointments/:id(\\d+)",
-  // authentication.verifyToken,
-  patch_controller.updateAppointment
+	"/appointments/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateAppointment
 );
 
 router.patch(
-  "/services/:id(\\d+)",
-  // authentication.verifyToken,
-  patch_controller.updateService
+	"/services/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateService
 );
 router.patch(
-  "/offers/:id(\\d+)",
-  // authentication.verifyToken,
-  patch_controller.updateOffer
+	"/offers/:id(\\d+)",
+	// authentication.verifyToken,
+	patch_controller.updateOffer
 );
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -160,34 +160,34 @@ router.patch(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.delete(
-  "/enterprises/:id(\\d+)",
-  // authentication.verifyToken,
-  delete_controller.deleteRecord
+	"/enterprises/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
 );
 router.delete(
-  "/clients/:id(\\d+)",
-  // authentication.verifyToken,
-  delete_controller.deleteRecord
+	"/clients/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
 );
 router.delete(
-  "/offers/:id(\\d+)",
-  // authentication.verifyToken,
-  delete_controller.deleteRecord
+	"/offers/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
 );
 router.delete(
-  "/services/:id(\\d+)",
-  // authentication.verifyToken,
-  delete_controller.deleteRecord
+	"/services/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
 );
 router.delete(
-  "/enterprises/:id(\\d+)",
-  // authentication.verifyToken,
-  delete_controller.deleteRecord
+	"/enterprises/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
 );
 router.delete(
-  "/appointments/:id(\\d+)",
-  // authentication.verifyToken,
-  delete_controller.deleteRecord
+	"/appointments/:id(\\d+)",
+	// authentication.verifyToken,
+	delete_controller.deleteRecord
 );
 
 export default router;

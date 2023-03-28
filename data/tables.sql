@@ -28,7 +28,6 @@ CREATE TABLE
         "mail" TEXT NOT NULL,
         "tel" TEXT,
         "offer_is_available" BOOLEAN,
-        "enterprise_id" INTEGER REFERENCES "enterprises"("id") ON DELETE CASCADE,
         "created_at" timestamptz NOT NULL DEFAULT NOW(),
         "updated_at" timestamp NOT NULL DEFAULT NOW()
     );

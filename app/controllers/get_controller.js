@@ -45,13 +45,13 @@ const get_controller = {
 		} catch (error) {
 			console.log(error);
 		}
+		const enterpriseId = res.locals.user.enterpriseId;
 	},
 	async getAllInfosForMyEnterprise(req, res) {
 		try {
-			// const userId = req.header.token.userId;
-			let userId = 1;
+			const enterpriseId = res.locals.user.enterpriseId;
 			let getAllInfosForMyEnterprise =
-				await dataMapper.getAllInfosForMyEnterprise(userId);
+				await dataMapper.getAllInfosForMyEnterprise(enterpriseId);
 			if (getAllInfosForMyEnterprise) {
 				res.json(getAllInfosForMyEnterprise);
 			}

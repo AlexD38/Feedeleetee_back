@@ -1,36 +1,19 @@
 import client from "../database.js";
 
 const get_model = {
-	async getAllInfosForMyEnterprise(userId) {
+	async getAllInfosForMyEnterprise(enterprise_id) {
 		try {
 			// à transformer en fonction
 			// cette requête renvoie mon entreprise avec mes rdv qui ont des services attribués qui ont eux même des offres attribuees.
 			// qui ont des clients atttribués.
 			//! si ces condition ne sont pas remplies bah y a rien ...
 			const sqlQuery = {
-				text: `SELECT enterprises.name, address, logo,
-				json_agg(json_build_object(
-				  'day', day, 
-				  'time_of_day', time_of_day, 
-				  'appointments.service_id',appointments.service_id, 
-				  'services.name', services.name, 
-				  'services.description', COALESCE(services.description, ''), 
-				  'services.price', services.price,
-				  'clients.id', COALESCE(clients.id, 0), 
-				  'clients.first_name', clients.firstname, 
-				  'clients.last_name', clients.lastname, 
-				  'clients.email', COALESCE(clients.mail, ''),
-				  'clients.tel', COALESCE(clients.tel, '')
-				)) AS appointments
-			  FROM users
-			  JOIN enterprises ON enterprise_id = enterprises.id
-			  JOIN appointments ON appointments.enterprise_id = enterprises.id
-			  JOIN clients ON appointments.client_id = clients.id
-			  JOIN services ON services.enterprise_id = services.id
-			  WHERE users.id = ($1)
-			  GROUP BY enterprises.name, address, logo;
+				text: `SELECT COUNT(*) as total_clients
+				FROM clients
+				WHERE enterprise_id = $1;
+				 ;
 			  `,
-				values: [userId],
+				values: [enterprise_id],
 			};
 			const response = await client.query(sqlQuery);
 			console.log(response.rows);

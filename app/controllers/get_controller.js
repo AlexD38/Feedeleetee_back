@@ -133,11 +133,27 @@ const get_controller = {
 			console.log(error);
 		}
 	},
-	async appointmentInformation(req, res) {
+	// async appointmentInformation(req, res) {
+	// 	try {
+	// 		let offers = await dataMapper.getAppointments();
+	// 		if (offers) {
+	// 			res.json(offers);
+	// 		} else {
+	// 			console.log(error);
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// },
+	async getNextAppointments(req, res) {
 		try {
-			let offers = await dataMapper.getAppointments();
-			if (offers) {
-				res.json(offers);
+			const enterpriseId = res.locals.user.enterpriseId;
+
+			let nextAppointments = await dataMapper.getNextAppointments(
+				enterpriseId
+			);
+			if (nextAppointments) {
+				res.json(nextAppointments);
 			} else {
 				console.log(error);
 			}

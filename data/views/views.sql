@@ -32,16 +32,4 @@ CREATE OR REPLACE VIEW QUICK_VIEW
 
 --SELECT * from QUICK_VIEW;
 
-CREATE OR REPLACE VIEW NEXT_3_APPOINTMENTS 
-	AS
-	SELECT *
-	from appointments
-	WHERE day >= CURRENT_DATE
-	LIMIT 3
-; 
-
-;
-
---SELECT * from next_3_appointments;
-
 COMMIT;

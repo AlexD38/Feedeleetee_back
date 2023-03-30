@@ -31,9 +31,14 @@ const upload = multer({
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 router.get(
-	"/QuickView",
+	"/quickview",
 	authentication.verifyToken,
 	get_controller.getAllInfosForMyEnterprise
+);
+router.get(
+	"/nextappointments",
+	authentication.verifyToken,
+	get_controller.getNextAppointments
 );
 router.get(
 	"/clients/:id(\\d+)/appointments",

@@ -8,16 +8,12 @@ const get_model = {
 			// qui ont des clients atttribués.
 			//! si ces condition ne sont pas remplies bah y a rien ...
 			const sqlQuery = {
-				text: `SELECT COUNT(*) as total_clients
-				FROM clients
-				WHERE enterprise_id = $1;
-				 ;
+				text: `SELECT * FROM get_quick_view($1)
 			  `,
 				values: [enterprise_id],
 			};
 			const response = await client.query(sqlQuery);
 			console.log(response.rows);
-			// let data = response.rows;
 
 			return response.rows;
 		} catch (error) {
@@ -133,6 +129,20 @@ const get_model = {
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
 			console.log(data);
+			return data;
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	async getNextAppointments(enterpriseId) {
+		try {
+			const sqlQuery = {
+				text: `SELECT * FROM get_next_3_appointments($1);`,
+				values: [enterpriseId],
+			};
+			const response = await client.query(sqlQuery);
+			let data = response.rows;
+			console.log(response);
 			return data;
 		} catch (error) {
 			console.error(error);

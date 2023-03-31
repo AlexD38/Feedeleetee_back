@@ -1,5 +1,6 @@
 import get_model from "../models/get_model.js";
 import post_model from "../models/post_model.js";
+import multer from "multer";
 
 const post_controller = {
   async createClient(req, res) {
@@ -126,6 +127,30 @@ const post_controller = {
       enterpriseId
     );
     res.json(results);
+  },
+  async uploadLogo(req, res) {
+    try {
+      const imageData = req.file;
+      console.log(imageData); // récupère les données de l'image en bytea
+      const enterpriseId = res.locals.user.enterpriseId;
+      console.log(imageData);
+
+      const imageToUpload = req.file.buffer;
+      // console.log("buffer : ", imageToUpload);
+
+      const result = await post_model.insertLogo(imageToUpload, enterpriseId);
+      if (result) {
+        res.status(200).json({
+          mesage: `Image téléchargée avec succès. Pour l'entreprise : ${result.name}`,
+          image: imageToUpload.toString("base64"),
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send("Une erreur est survenue lors du téléchargement de l'image.");
+    }
   },
 };
 

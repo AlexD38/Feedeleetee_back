@@ -69,6 +69,17 @@ const get_model = {
 			const sqlQuery = `SELECT * FROM enterprises;`;
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
+			for (const enterprise of data) {
+				console.log(enterprise.logo);
+				if (enterprise.logo) {
+					const newImage = enterprise.logo
+						.toString("base64")
+						.toString("utf8");
+					enterprise.logo = newImage;
+				}
+				console.log(enterprise);
+			}
+			// console.log(data);
 			return data;
 		} catch (error) {
 			console.error(error);

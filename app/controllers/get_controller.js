@@ -77,7 +77,7 @@ const get_controller = {
 					enterprises,
 				});
 			} else {
-				console.log(error);
+				console.log("not ok");
 			}
 		} catch (error) {
 			console.log(error);

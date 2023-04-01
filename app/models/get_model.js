@@ -1,21 +1,17 @@
 import client from "../database.js";
 
 const get_model = {
-	async getAllInfosForMyEnterprise(enterprise_id) {
+	async getAllInfosForMyEnterprise(userId, enterprise_id) {
 		try {
-			// à transformer en fonction
-			// cette requête renvoie mon entreprise avec mes rdv qui ont des services attribués qui ont eux même des offres attribuees.
-			// qui ont des clients atttribués.
-			//! si ces condition ne sont pas remplies bah y a rien ...
 			const sqlQuery = {
-				text: `SELECT * FROM get_quick_view($1)
+				text: `SELECT * FROM get_quick_view1($1, $2)
 			  `,
-				values: [enterprise_id],
+				values: [userId, enterprise_id],
 			};
 			const response = await client.query(sqlQuery);
-			console.log(response.rows);
+			console.log(response.rows[0]);
 
-			return response.rows;
+			return response.rows[0];
 		} catch (error) {
 			// res.status(500);
 			console.log(error);

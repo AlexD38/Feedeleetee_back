@@ -4,19 +4,16 @@ import multer from "multer";
 
 const post_controller = {
 	async createClient(req, res) {
-		const { firstName, lastName, mail, tel } = req.body;
+		const { firstname, lastname, mail, tel } = req.body;
+		console.log(req.body);
 
 		const results = await post_model.insertClient(
-			firstName,
-			lastName,
+			firstname,
+			lastname,
 			mail,
 			tel
 		);
 		res.json(results);
-		const clientId = window.localStorage.setItem(
-			"client's id created",
-			results.clientId
-		);
 	},
 
 	async createEnterprise(req, res, next) {

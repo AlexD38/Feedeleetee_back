@@ -2,10 +2,13 @@ import dataMapper from "../models/get_model.js";
 
 const get_controller = {
 	// changer await datamapper.blabla par getInfos
-	//! définir ici req.url split pour table name et le passser en arg des methodes.
 	async clientInformation(req, res) {
 		try {
-			const clientId = req.params.id;
+			const clientId = res.locals.user.clientId;
+			if (!clientId) {
+				res.json({ failed: "client id is null" });
+				return;
+			}
 			let client = await dataMapper.getOneClient(clientId);
 			if (client) {
 				res.json(client);
@@ -71,6 +74,7 @@ const get_controller = {
 	},
 	async enterpriseInformation(req, res) {
 		try {
+			const id = req.params.id;
 			let enterprises = await dataMapper.getEnterprises();
 			if (enterprises) {
 				res.json({
@@ -117,6 +121,24 @@ const get_controller = {
 			let appointments = await dataMapper.getAppointmentsFromEnterprise(
 				enterpriseId
 			);
+			if (appointments) {
+				res.json(appointments);
+			} else {
+				console.log(error);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	async appointmentsAvailableFromEnterprise(req, res) {
+		try {
+			const enterpriseId = req.params.id;
+			console.log(req.params.id);
+			// console.log("ici");
+			let appointments =
+				await dataMapper.getAppointmentsAvailableFromEnterprise(
+					enterpriseId
+				);
 			if (appointments) {
 				res.json(appointments);
 			} else {

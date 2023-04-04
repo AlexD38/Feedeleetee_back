@@ -16,27 +16,26 @@ const post_model = {
                 )
                 VALUES 
                 ($1,$2,$3,$4)
+				RETURNING *
                 `,
 				values: [firstname, lastname, mail, tel],
 			};
 			// j'execute la query
-			await client.query(sqlQuery);
+			let results = await client.query(sqlQuery);
+			let clientCreated = results.rows[0];
 			// je range mon client dans la variable client created
-			let clientCreated = sqlQuery.values;
+			let clientValues = sqlQuery.values;
+
 			// getion d'erreur supplémentaire avec if else
-			if (clientCreated && clientCreated != "undefined") {
+			if (clientValues && clientValues != "undefined") {
 				// si tout est ok, bah console log c ok !
-				console.log(`${clientCreated} créé en base de donnée`);
+				console.log(`${clientValues} créé en base de donnée`);
 			} else {
 				// si le client entré est undefined ou que rien n'est reçu du body, je console.log l'erreur.
-				console.log(`${clientCreated} n'a pas pu être entré en bdd`);
+				console.log(`${clientValues} n'a pas pu être entré en bdd`);
 			}
-			// je renvoie le résultat
-			const result = {
-				success: `${firstname} ${lastname} well added to database`,
-			};
 
-			return result;
+			return clientCreated;
 		} catch (error) {
 			console.error(error);
 		}
@@ -98,27 +97,18 @@ const post_model = {
 			console.log(error);
 		}
 	},
-	async insertClientIdIntoUserTable(clientId, userId) {
+	async insertClientIdIntoUserTable(userId, clientId) {
 		try {
 			const sqlQuery = {
-				text: `INSERT INTO
-                users (
-                client_id)
-                VALUES 
-                ($1) WHERE user_id = ($2)
-                `,
-				values: [clientId, userId],
-			};
-			await client.query(sqlQuery);
-			let clientAttached = sqlQuery.values;
+				text: `UPDATE users SET client_id = $2 WHERE users.id = $1 RETURNING *;
 
-			if (!clientId || !userId) {
-				res.json({ error: "Client cannot be attached" });
-			}
-			const result = {
-				success: `${clientId} has been created by user : ${userId}`,
+                `,
+				values: [userId, clientId],
 			};
-			return result;
+			const results = await client.query(sqlQuery);
+			const clientAttached = results.rows[0];
+
+			return clientAttached;
 		} catch (error) {
 			console.log(error);
 		}

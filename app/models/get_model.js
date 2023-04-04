@@ -66,7 +66,13 @@ const get_model = {
 	},
 	async getEnterprises() {
 		try {
-			const sqlQuery = `SELECT * FROM enterprises;`;
+			const sqlQuery = {
+				text: `SELECT * from enterprises;
+			
+			
+				`,
+				// values: [id],
+			};
 			const response = await client.query(sqlQuery);
 			let data = response.rows;
 			for (const enterprise of data) {
@@ -118,6 +124,22 @@ const get_model = {
 			let data = response.rows;
 			// console.log(response.rows);
 			return data;
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	async getAppointmentsAvailableFromEnterprise(enterpriseId) {
+		try {
+			const sqlQuery = {
+				text: `SELECT * from appointments  where appointments.enterprise_id = $1 AND client_id is null;
+	   `,
+				values: [enterpriseId],
+			};
+			const response = await client.query(sqlQuery);
+			let data = response.rows;
+			console.log(response.rows);
+			return data;
+			s;
 		} catch (error) {
 			console.error(error);
 		}

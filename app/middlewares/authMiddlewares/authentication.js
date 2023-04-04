@@ -90,6 +90,9 @@ const authMiddleware = {
 					if (!enterpriseId) {
 						res.locals.user.enterpriseId = req.headers.enterpriseid;
 						// console.log("enterpriseId récupéré depuis le front");
+					} else if (!clientId || clientId === undefined) {
+						res.locals.user.clientId = req.headers.clientId;
+						// console.log("clientId récupéré depuis le front");
 					}
 					console.log("locals : ", res.locals.user);
 				}

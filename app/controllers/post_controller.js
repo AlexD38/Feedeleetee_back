@@ -3,17 +3,23 @@ import post_model from "../models/post_model.js";
 import multer from "multer";
 
 const post_controller = {
-	async createClient(req, res) {
-		const { firstname, lastname, mail, tel } = req.body;
-		console.log(req.body);
+	async createClient(req, res, next) {
+		try {
+			const { firstname, lastname, mail, tel } = req.body;
+			console.log(req.body);
 
-		const results = await post_model.insertClient(
-			firstname,
-			lastname,
-			mail,
-			tel
-		);
-		res.json(results);
+			const results = await post_model.insertClient(
+				firstname,
+				lastname,
+				mail,
+				tel
+			);
+			res.locals.clientCreated = results;
+			console.log("client has been created : ", res.locals.clientCreated);
+			next();
+		} catch (error) {
+			console.log(error);
+		}
 	},
 
 	async createEnterprise(req, res, next) {
@@ -41,18 +47,6 @@ const post_controller = {
 
 	async attachEnterpriseToUser(req, res) {
 		try {
-			console.log(req.file);
-			console.log(
-				"user authenticated : " +
-					res.locals.user.userName +
-					" with id : " +
-					res.locals.user.user +
-					" enterprise just created by the authenticated user :  " +
-					res.locals.enterpriseCreated?.enterprise
-			);
-			// console.log(
-			// 	"enterprise id : " + res.locals.enterpriseCreated?.enterpriseId
-			// );
 			const userId = res.locals.user.user;
 			const enterpriseId = res.locals.enterpriseCreated?.enterpriseId;
 			if (userId) {
@@ -71,18 +65,20 @@ const post_controller = {
 	},
 	async attachClientToUser(req, res) {
 		try {
+			console.log(res.locals.clientCreated);
+			const userId = res.locals.user.user;
+			const clientId = res.locals.clientCreated?.id;
+			// res.locals.user.clientId = clientId;
 			if (userId) {
-				// ! const userId = récupérer depuis le token apres l'authentification du user
-				const clientId = windows.localStorage.getItem(
-					"client's id created"
-				);
-				// console.log(clientId);
 				const userCreateClient =
 					await post_model.insertClientIdIntoUserTable(
-						clientId,
-						userId
+						userId,
+						clientId
 					);
-				res.json(results);
+				res.json({
+					success: `client ${clientId} has been attached to user : ${userId}`,
+					userCreateClient,
+				});
 			} else {
 				res.json({ error: "You gotta be connected to do this..." });
 			}

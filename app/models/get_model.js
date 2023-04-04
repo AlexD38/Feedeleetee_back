@@ -21,7 +21,7 @@ const get_model = {
 		try {
 			const sqlQuery = {
 				text: `
-            SELECT * FROM clients where clients.id = ($1);`,
+            SELECT firstname, clients.id, lastname, array_agg(appointments.day) as rdv FROM clients LEFT JOIN appointments ON client_id = $1 where clients.id = ($1) GROUP BY firstname, clients.id, lastname;`,
 				values: [clientId],
 			};
 			const response = await client.query(sqlQuery);

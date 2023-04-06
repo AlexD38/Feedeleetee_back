@@ -127,8 +127,8 @@ router.post(
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 router.patch(
-	"/clients/appointments/:id(\\d+)",
-	// authentication.verifyToken,
+	"/appointments/:id(\\d+)/",
+	authentication.verifyToken,
 	patch_controller.insertClientIntoAppointment
 );
 router.patch(

@@ -30,8 +30,9 @@ const patch_controller = {
 	async insertClientIntoAppointment(req, res) {
 		try {
 			const appointmentId = req.params.id;
-			// const clientId = res.userId;
-			const { clientId } = req.body;
+			const clientId = res.locals.user.clientId;
+			console.log(res.locals.user.clientId);
+			console.log(appointmentId, clientId);
 
 			const appointmentUpdated =
 				await patch_model.insertClientIntoAppointment(

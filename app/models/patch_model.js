@@ -24,7 +24,7 @@ const patch_model = {
 		}
 	},
 	//je passe en argument, ce que j'extrair de req.body
-	async insertClientIntoAppointment(clientId, appointmentId) {
+	async insertClientIntoAppointment(clientId, appointmentId, enterpriseId) {
 		// getion d'erreur avec try / catch
 		try {
 			const findCLientById = {
@@ -78,21 +78,13 @@ const patch_model = {
 					console.log("Appointment not updated");
 					return;
 				}
-				const getEnterpriseId = {
-					text: `select enterprise_id from appointments where appointments.id =($1)`,
-					values: [appointmentId],
+				console.log(clientId, enterpriseId);
+				const insertClientIntoEnterprise = {
+					text: `INSERT INTO enterprises_got_clients (enterprises_id, clients_id) values ($1,$2) returning *`,
+					values: [+enterpriseId, clientId],
 				};
-				const enterpriseId = await client.query(getEnterpriseId);
-				const resultOfEnterpriseId = enterpriseId.rows[0];
-				const linkClientsAndEnterprise = {
-					text: `insert into enterprises_got_clients values ($1,$2)`,
-					values: [+enterpriseId, +clientId],
-				};
-				const results = await client.query(linkClientsAndEnterprise);
-				const tableUpdated = results;
-				if (tableUpdated) {
-					console.log("Table updated");
-				}
+				const results = await client.query(insertClientIntoEnterprise);
+				console.log(results);
 				return appointmentUpdated;
 			}
 		} catch (error) {

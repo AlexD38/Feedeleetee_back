@@ -31,13 +31,14 @@ const patch_controller = {
 		try {
 			const appointmentId = req.params.id;
 			const clientId = res.locals.user.clientId;
-			// console.log(res.locals.user.clientId);
-			console.log(appointmentId, clientId);
+			const enterpriseId = req.headers.enterpriseid;
+			console.log(appointmentId, clientId, enterpriseId);
 
 			const appointmentUpdated =
 				await patch_model.insertClientIntoAppointment(
 					clientId,
-					appointmentId
+					appointmentId,
+					enterpriseId
 				);
 			if (!appointmentUpdated) {
 				res.status(404).json({

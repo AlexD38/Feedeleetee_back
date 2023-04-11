@@ -53,8 +53,10 @@ const get_model = {
 		try {
 			const sqlQuery = {
 				text: `
-				SELECT clients.id,  firstname, lastname, mail, tel FROM enterprises_got_clients JOIN  clients ON clients_id=clients.id WHERE enterprises_id=($1);
-`,
+				SELECT DISTINCT clients.id, firstname, lastname, mail, tel 
+				FROM enterprises_got_clients 
+				JOIN clients ON clients_id = clients.id 
+				WHERE enterprises_id = ($1);`,
 				values: [enterpriseId],
 			};
 			const response = await client.query(sqlQuery);

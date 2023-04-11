@@ -31,7 +31,7 @@ const patch_controller = {
 		try {
 			const appointmentId = req.params.id;
 			const clientId = res.locals.user.clientId;
-			console.log(res.locals.user.clientId);
+			// console.log(res.locals.user.clientId);
 			console.log(appointmentId, clientId);
 
 			const appointmentUpdated =

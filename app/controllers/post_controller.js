@@ -14,8 +14,11 @@ const post_controller = {
 				mail,
 				tel
 			);
-			res.locals.clientCreated = results;
-			console.log("client has been created : ", res.locals.clientCreated);
+			req.session.clientCreated = results;
+			console.log(
+				"client has been created : ",
+				req.session.clientCreated
+			);
 			next();
 		} catch (error) {
 			console.log(error);
@@ -37,7 +40,7 @@ const post_controller = {
 				enterpriseLogo,
 				enterpriseDesc
 			);
-			res.locals.enterpriseCreated = results;
+			req.session.enterpriseCreated = results;
 
 			next();
 		} catch (error) {
@@ -47,8 +50,8 @@ const post_controller = {
 
 	async attachEnterpriseToUser(req, res) {
 		try {
-			const userId = res.locals.user.user;
-			const enterpriseId = res.locals.enterpriseCreated?.enterpriseId;
+			const userId = req.session.user.user;
+			const enterpriseId = req.session.enterpriseCreated?.enterpriseId;
 			if (userId) {
 				const userCreateEnterprise =
 					await post_model.insertEnterpriseIdIntoUserTable(
@@ -65,10 +68,10 @@ const post_controller = {
 	},
 	async attachClientToUser(req, res) {
 		try {
-			console.log(res.locals.clientCreated);
-			const userId = res.locals.user.user;
-			const clientId = res.locals.clientCreated?.id;
-			// res.locals.user.clientId = clientId;
+			console.log(req.session.clientCreated);
+			const userId = req.session.user.user;
+			const clientId = req.session.clientCreated?.id;
+			// req.session.user.clientId = clientId;
 			if (userId) {
 				const userCreateClient =
 					await post_model.insertClientIdIntoUserTable(
@@ -89,7 +92,7 @@ const post_controller = {
 	async createAppointments(req, res) {
 		const { day, timeOfDay, serviceId } = req.body.data;
 		console.log(req.body.data);
-		const enterpriseId = res.locals.user.enterpriseId;
+		const enterpriseId = req.session.user.enterpriseId;
 		// console.log(enterpriseId);
 
 		const results = await post_model.insertAppointements(
@@ -102,7 +105,7 @@ const post_controller = {
 	},
 	async createOffer(req, res) {
 		const { description, discount } = req.body.data;
-		const enterpriseId = res.locals.user.enterpriseId;
+		const enterpriseId = req.session.user.enterpriseId;
 
 		const results = await post_model.insertOffers(
 			description,
@@ -114,7 +117,7 @@ const post_controller = {
 	async createService(req, res) {
 		const { description, price, duration } = req.body.data;
 		console.log(req.body);
-		const enterpriseId = res.locals.user.enterpriseId;
+		const enterpriseId = req.session.user.enterpriseId;
 
 		const results = await post_model.insertServices(
 			description,
@@ -128,7 +131,7 @@ const post_controller = {
 		try {
 			const imageData = req.file;
 			console.log(imageData); // récupère les données de l'image en bytea
-			const enterpriseId = res.locals.user.enterpriseId;
+			const enterpriseId = req.session.user.enterpriseId;
 			console.log(imageData);
 
 			const imageToUpload = req.file.buffer;

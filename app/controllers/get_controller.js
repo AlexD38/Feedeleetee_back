@@ -4,7 +4,7 @@ const get_controller = {
 	// changer await datamapper.blabla par getInfos
 	async clientInformation(req, res) {
 		try {
-			const clientId = res.locals.user.clientId;
+			const clientId = req.session.user.clientId;
 			if (!clientId) {
 				res.json({ failed: "client id is null" });
 				return;
@@ -36,7 +36,7 @@ const get_controller = {
 	},
 	async enterpriseClients(req, res) {
 		try {
-			const enterpriseId = res.locals.user.enterpriseId;
+			const enterpriseId = req.session.user.enterpriseId;
 			let enterpriseClients = await dataMapper.getclientsFromEnterprise(
 				enterpriseId
 			);
@@ -48,12 +48,12 @@ const get_controller = {
 		} catch (error) {
 			console.log(error);
 		}
-		const enterpriseId = res.locals.user.enterpriseId;
+		const enterpriseId = req.session.user.enterpriseId;
 	},
 	async getAllInfosForMyEnterprise(req, res) {
 		try {
-			const enterpriseId = res.locals.user.enterpriseId;
-			const userId = res.locals.user.user;
+			const enterpriseId = req.session.user.enterpriseId;
+			const userId = req.session.user.user;
 			console.log(enterpriseId, userId);
 			let getAllInfosForMyEnterprise =
 				await dataMapper.getAllInfosForMyEnterprise(
@@ -88,7 +88,7 @@ const get_controller = {
 		}
 	},
 	async oneEnterpriseInformation(req, res) {
-		const enterpriseId = res.locals.user.enterpriseId;
+		const enterpriseId = req.session.user.enterpriseId;
 		try {
 			let enterprise = await dataMapper.getOneEnterprise(enterpriseId);
 			if (enterprise) {
@@ -102,7 +102,7 @@ const get_controller = {
 	},
 	async serviceInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = res.locals.user.enterpriseId;
+			const enterpriseId = req.session.user.enterpriseId;
 			let services = await dataMapper.getServicesFromEnterprise(
 				enterpriseId
 			);
@@ -117,7 +117,7 @@ const get_controller = {
 	},
 	async appointmentInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = res.locals.user.enterpriseId;
+			const enterpriseId = req.session.user.enterpriseId;
 			let appointments = await dataMapper.getAppointmentsFromEnterprise(
 				enterpriseId
 			);
@@ -150,7 +150,7 @@ const get_controller = {
 	},
 	async offerInformationFromEnterprise(req, res) {
 		try {
-			const enterpriseId = res.locals.user.enterpriseId;
+			const enterpriseId = req.session.user.enterpriseId;
 			let offers = await dataMapper.getOffersFromEnterprises(
 				enterpriseId
 			);
@@ -177,7 +177,7 @@ const get_controller = {
 	// },
 	async getNextAppointments(req, res) {
 		try {
-			const enterpriseId = res.locals.user.enterpriseId;
+			const enterpriseId = req.session.user.enterpriseId;
 
 			let nextAppointments = await dataMapper.getNextAppointments(
 				enterpriseId

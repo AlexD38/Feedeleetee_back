@@ -10,7 +10,7 @@ const authMiddleware = {
 		const token = req.header.token;
 
 		if (!token) {
-			const { enterpriseId, clientId, userId, userName } = res.locals;
+			const { enterpriseId, clientId, userId, userName } = req.session;
 			// déclaration du payload de token
 			const payload = {
 				//je prends l'id et le username du currentUser stocké dans la requête après avoir été trouvé en bdd par le précédent MW, afin que le token se crée avec les bonnes infos du user trouvé en bdd.
@@ -80,7 +80,7 @@ const authMiddleware = {
 					console.log("enterprise:", req.headers.enterpriseid);
 					console.log(decoded);
 
-					res.locals.user = {
+					req.session.user = {
 						authenticated: true,
 						user: userId,
 						userName: userName,
@@ -88,13 +88,14 @@ const authMiddleware = {
 						clientId: clientId,
 					};
 					if (!enterpriseId) {
-						res.locals.user.enterpriseId = req.headers.enterpriseid;
+						req.session.user.enterpriseId =
+							req.headers.enterpriseid;
 						// console.log("enterpriseId récupéré depuis le front");
 					} else if (!clientId || clientId === undefined) {
-						res.locals.user.clientId = req.headers.clientId;
+						req.session.user.clientId = req.headers.clientId;
 						// console.log("clientId récupéré depuis le front");
 					}
-					console.log("locals : ", res.locals.user);
+					console.log("locals : ", req.session.user);
 				}
 			}
 		);
@@ -132,30 +133,30 @@ const authMiddleware = {
 				console.log(
 					"Le user n'a pas encore créé d'entreprise ni de profil client"
 				);
-				res.locals.userId = userFound.id;
-				res.locals.userName = userFound.user_name;
+				req.session.userId = userFound.id;
+				req.session.userName = userFound.user_name;
 			} else if (userFound.client_id === null) {
 				// Code à exécuter si client_id est nul
 				console.log("Le user n'a pas de profil client");
-				res.locals.userId = userFound.id;
-				res.locals.enterpriseId = userFound.enterprise_id;
-				res.locals.userName = userFound.user_name;
+				req.session.userId = userFound.id;
+				req.session.enterpriseId = userFound.enterprise_id;
+				req.session.userName = userFound.user_name;
 			} else if (userFound.enterprise_id === null) {
 				// Code à exécuter si client_id est nul
 				console.log("Le user n'a pas d'entreprise");
-				res.locals.userId = userFound.id;
-				res.locals.clientId = userFound.client_id;
-				res.locals.userName = userFound.user_name;
+				req.session.userId = userFound.id;
+				req.session.clientId = userFound.client_id;
+				req.session.userName = userFound.user_name;
 			} else {
-				res.locals.enterpriseId = userFound.enterprise_id;
-				res.locals.clientId = userFound.client_id;
-				res.locals.userId = userFound.id;
-				res.locals.userName = userFound.user_name;
+				req.session.enterpriseId = userFound.enterprise_id;
+				req.session.clientId = userFound.client_id;
+				req.session.userId = userFound.id;
+				req.session.userName = userFound.user_name;
 
 				// Code à exécuter si ni enterprise_id ni client_id ne sont nuls
 				console.log("Le user à un profil client et une entreprise");
 			}
-			// console.log(res.locals);
+			// console.log(req.session);
 			next();
 		} catch (error) {
 			console.log(error);

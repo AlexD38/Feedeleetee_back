@@ -53,7 +53,7 @@ const get_controller = {
 	async getAllInfosForMyEnterprise(req, res) {
 		try {
 			const enterpriseId = req.session.user.enterpriseId;
-			const userId = req.session.user.user;
+			const userId = req.session.user.userId;
 			console.log(enterpriseId, userId);
 			let getAllInfosForMyEnterprise =
 				await dataMapper.getAllInfosForMyEnterprise(
@@ -61,9 +61,10 @@ const get_controller = {
 					enterpriseId
 				);
 			if (getAllInfosForMyEnterprise) {
-				console.log(getAllInfosForMyEnterprise);
+				// console.log(getAllInfosForMyEnterprise);
 				res.json(getAllInfosForMyEnterprise);
 			}
+			console.log("session : ", req.session.user);
 		} catch (error) {
 			res.status(500).send({
 				message: "I can't give you that information right now...",

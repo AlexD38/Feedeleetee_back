@@ -51,10 +51,9 @@ const post_model = {
 				values: [name, address, logo, description],
 			};
 			const results = await client.query(sqlQuery);
-			console.log(results);
+			console.log(results.rows[0]);
 			const enterpriseCreated = results.rows[0];
-
-			if (enterpriseCreated) {
+			if (enterpriseCreated.id) {
 				console.log(`${enterpriseCreated.name} créé en base de donnée`);
 			} else {
 				console.log(
@@ -68,7 +67,7 @@ const post_model = {
 			};
 			return result;
 		} catch (error) {
-			console.log(error);
+			console.log(error.detail);
 		}
 	},
 	async insertEnterpriseIdIntoUserTable(enterpriseId, userId) {

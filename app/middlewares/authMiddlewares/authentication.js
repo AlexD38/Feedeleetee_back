@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import auth_model from "../../models/auth_model.js";
 import post_model from "../../models/post_model.js";
-//  ce mw va créer le token si le sign controller renvoie un user puis next(); vers route graphQL
 
 const authMiddleware = {
 	//* création de token ici :
@@ -51,7 +50,6 @@ const authMiddleware = {
 	},
 	verifyToken: (req, res, next) => {
 		const token = req.headers.token;
-		// console.log(req.headers.enterpriseid);
 		console.log(req.headers);
 		if (!token) {
 			res.json({
@@ -60,7 +58,6 @@ const authMiddleware = {
 			});
 			return;
 		}
-		// console.log({ greetings: `Token déjà créé : ${token}` });
 		jwt.verify(
 			token,
 			process.env.SECRET ?? "sSsalazarSsSerpentard",
@@ -77,15 +74,18 @@ const authMiddleware = {
 					console.log("userId:", userId);
 					console.log("clientId:", clientId);
 					console.log("name:", userName);
-					console.log("enterprise:", req.headers.enterpriseid);
+					console.log(
+						"enterprise:",
+						req.headers.enterpriseid || enterpriseId
+					);
 					console.log(decoded);
 
 					req.session.user = {
 						authenticated: true,
-						user: userId,
-						userName: userName,
-						enterpriseId: enterpriseId,
-						clientId: clientId,
+						userId,
+						userName,
+						enterpriseId,
+						clientId,
 					};
 					if (!enterpriseId) {
 						req.session.user.enterpriseId =

@@ -50,7 +50,7 @@ const post_controller = {
 
 	async attachEnterpriseToUser(req, res) {
 		try {
-			const userId = req.session.user.user;
+			const userId = req.session.user.userId;
 			const enterpriseId = req.session.enterpriseCreated?.enterpriseId;
 			if (userId) {
 				const userCreateEnterprise =
@@ -58,9 +58,12 @@ const post_controller = {
 						enterpriseId,
 						userId
 					);
-				res.json({ userCreateEnterprise, enterpriseId });
+				res.json({ userCreateEnterprise, enterpriseId, success: true });
 			} else {
-				res.json({ error: "You gotta be connected to do this..." });
+				res.json({
+					error: "Something went wrong here...",
+					success: false,
+				});
 			}
 		} catch (error) {
 			console.log(error);
@@ -69,7 +72,7 @@ const post_controller = {
 	async attachClientToUser(req, res) {
 		try {
 			console.log(req.session.clientCreated);
-			const userId = req.session.user.user;
+			const userId = req.session.user.userId;
 			const clientId = req.session.clientCreated?.id;
 			// req.session.user.clientId = clientId;
 			if (userId) {

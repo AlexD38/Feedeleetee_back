@@ -9,7 +9,11 @@ const authMiddleware = {
 		const token = req.header.token;
 
 		if (!token) {
-			const { enterpriseId, clientId, userId, userName } = req.session;
+			console.log("locals from create token : ", res.locals.user);
+			const enterpriseId = res.locals.user.enterprise_id;
+			const clientId = res.locals.user.client_id;
+			const userId = res.locals.user.id;
+			const userName = res.locals.user.user_name;
 			// déclaration du payload de token
 			const payload = {
 				//je prends l'id et le username du currentUser stocké dans la requête après avoir été trouvé en bdd par le précédent MW, afin que le token se crée avec les bonnes infos du user trouvé en bdd.
@@ -32,7 +36,8 @@ const authMiddleware = {
 			);
 			// j'envoie le token dans le header de la requête
 			res.json({
-				enterpriseId,
+				authenticated: true,
+				enterpriseId: enterpriseId,
 				clientId,
 				userId,
 				userName,
@@ -50,7 +55,7 @@ const authMiddleware = {
 	},
 	verifyToken: (req, res, next) => {
 		const token = req.headers.token;
-		console.log(req.headers);
+		// console.log(req.headers);
 		if (!token) {
 			res.json({
 				authenticated: false,
@@ -78,24 +83,24 @@ const authMiddleware = {
 						"enterprise:",
 						req.headers.enterpriseid || enterpriseId
 					);
-					console.log(decoded);
+					console.log("decded : ", decoded);
 
-					req.session.user = {
+					res.locals.user = {
 						authenticated: true,
 						userId,
 						userName,
-						enterpriseId,
-						clientId,
+						enterpriseId: enterpriseId || "",
+						clientId: clientId || "",
 					};
 					if (!enterpriseId) {
-						req.session.user.enterpriseId =
+						res.locals.user.user.enterpriseId =
 							req.headers.enterpriseid;
 						// console.log("enterpriseId récupéré depuis le front");
 					} else if (!clientId || clientId === undefined) {
-						req.session.user.clientId = req.headers.clientId;
+						res.locals.user.clientId = req.headers.clientId;
 						// console.log("clientId récupéré depuis le front");
 					}
-					console.log("locals : ", req.session.user);
+					console.log("locals : ", res.locals.user.user);
 				}
 			}
 		);
@@ -133,30 +138,18 @@ const authMiddleware = {
 				console.log(
 					"Le user n'a pas encore créé d'entreprise ni de profil client"
 				);
-				req.session.userId = userFound.id;
-				req.session.userName = userFound.user_name;
 			} else if (userFound.client_id === null) {
 				// Code à exécuter si client_id est nul
 				console.log("Le user n'a pas de profil client");
-				req.session.userId = userFound.id;
-				req.session.enterpriseId = userFound.enterprise_id;
-				req.session.userName = userFound.user_name;
 			} else if (userFound.enterprise_id === null) {
 				// Code à exécuter si client_id est nul
 				console.log("Le user n'a pas d'entreprise");
-				req.session.userId = userFound.id;
-				req.session.clientId = userFound.client_id;
-				req.session.userName = userFound.user_name;
 			} else {
-				req.session.enterpriseId = userFound.enterprise_id;
-				req.session.clientId = userFound.client_id;
-				req.session.userId = userFound.id;
-				req.session.userName = userFound.user_name;
-
 				// Code à exécuter si ni enterprise_id ni client_id ne sont nuls
 				console.log("Le user à un profil client et une entreprise");
 			}
-			// console.log(req.session);
+			res.locals.user = userFound;
+			console.log(res.locals.user);
 			next();
 		} catch (error) {
 			console.log(error);

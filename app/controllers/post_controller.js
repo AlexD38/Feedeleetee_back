@@ -15,10 +15,7 @@ const post_controller = {
 				tel
 			);
 			res.locals.clientCreated = results;
-			console.log(
-				"client has been created : ",
-				res.locals.clientCreated
-			);
+			console.log("client has been created : ", res.locals.clientCreated);
 			next();
 		} catch (error) {
 			console.log(error);
@@ -50,8 +47,17 @@ const post_controller = {
 
 	async attachEnterpriseToUser(req, res) {
 		try {
+			console.log(
+				"enterpriseCreated from locals",
+				res.locals.enterpriseCreated
+			);
+			console.log("locals user from locals", res.locals.user);
 			const userId = res.locals.user.userId;
-			const enterpriseId = res.locals.enterpriseCreated?.enterpriseId;
+			const enterpriseId = res.locals.enterpriseCreated.enterpriseId;
+			res.locals.user.enterpriseId =
+				res.locals.enterpriseCreated.enterpriseId;
+
+			console.log("user locals from locals 2", res.locals.user);
 			if (userId) {
 				const userCreateEnterprise =
 					await post_model.insertEnterpriseIdIntoUserTable(
@@ -136,6 +142,7 @@ const post_controller = {
 			console.log(imageData); // récupère les données de l'image en bytea
 			const enterpriseId = res.locals.user.enterpriseId;
 			console.log(imageData);
+			console.log("enterpriseId: " + enterpriseId);
 
 			const imageToUpload = req.file.buffer;
 			// console.log("buffer : ", imageToUpload);

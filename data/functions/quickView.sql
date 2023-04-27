@@ -47,5 +47,3 @@ BIGINT) AS $$
 	END;
 	$$ LANGUAGE 
 PLPGSQL; 
-
-select *from get_quick_view1(2,2) 

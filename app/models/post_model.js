@@ -237,13 +237,14 @@ const post_model = {
 	},
 	async insertLogo(imageToUpload, enterprise_id) {
 		try {
+			console.log(enterprise_id);
 			const sqlQuery = {
 				text: `UPDATE enterprises SET logo= ($1) WHERE enterprises.id = ($2) RETURNING *`,
 				values: [imageToUpload, enterprise_id],
 			};
 			const results = await client.query(sqlQuery);
 			const imageUploaded = results.rows[0];
-			console.log(imageUploaded);
+			// console.log(imageUploaded);
 			if (imageUploaded) {
 				return imageUploaded;
 			}

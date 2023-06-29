@@ -4,7 +4,7 @@ const get_controller = {
     // changer await datamapper.blabla par getInfos
     async clientInformation(req, res) {
         try {
-            const clientId = res.locals.user.clientId;
+            const clientId = req.headers.clientid;
             if (!clientId) {
                 res.json({ failed: "client id is null" });
                 return;
@@ -19,12 +19,24 @@ const get_controller = {
             console.log(error);
         }
     },
+    async getOneUser(req, res, next) {
+        try {
+            const userId = res.locals.user.userId;
+            const userFetchedFromDatabase = await dataMapper.getOneUser(userId);
+            if (userFetchedFromDatabase) {
+                console.log(res.locals.user);
+                res.locals.user.enterpriseId = userFetchedFromDatabase.enterprise_id;
+                console.log(res.locals.user);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        next();
+    },
     async clientsAppointments(req, res) {
         try {
             const clientId = req.params.id;
-            let clientsAppointments = await dataMapper.getOneClientAppointments(
-                clientId
-            );
+            let clientsAppointments = await dataMapper.getOneClientAppointments(clientId);
             if (clientsAppointments) {
                 res.json(clientsAppointments);
             } else {
@@ -37,9 +49,7 @@ const get_controller = {
     async enterpriseClients(req, res) {
         try {
             const enterpriseId = req.headers.enterpriseid;
-            let enterpriseClients = await dataMapper.getclientsFromEnterprise(
-                enterpriseId
-            );
+            let enterpriseClients = await dataMapper.getclientsFromEnterprise(enterpriseId);
             if (enterpriseClients) {
                 res.json(enterpriseClients);
             } else {
@@ -48,23 +58,19 @@ const get_controller = {
         } catch (error) {
             console.log(error);
         }
-        const enterpriseId = res.locals.user.enterpriseId;
+        // const enterpriseId = res.locals.user.enterprise_id;
     },
     async getAllInfosForMyEnterprise(req, res) {
         try {
             const enterpriseId = res.locals.user.enterpriseId;
             const userId = res.locals.user.userId;
             console.log(enterpriseId, userId);
-            let getAllInfosForMyEnterprise =
-                await dataMapper.getAllInfosForMyEnterprise(
-                    userId,
-                    enterpriseId
-                );
+            let getAllInfosForMyEnterprise = await dataMapper.getAllInfosForMyEnterprise(userId, enterpriseId);
             if (getAllInfosForMyEnterprise) {
-                // console.log(getAllInfosForMyEnterprise);
+                console.log(getAllInfosForMyEnterprise);
                 res.json(getAllInfosForMyEnterprise);
             }
-            console.log("session : ", res.locals.user);
+            // console.log("session : ", res.locals.user);
         } catch (error) {
             res.status(500).send({
                 message: "I can't give you that information right now...",
@@ -89,6 +95,7 @@ const get_controller = {
         }
     },
     async oneEnterpriseInformation(req, res) {
+        console.log(res.locals.user);
         const enterpriseId = res.locals.user.enterpriseId;
         try {
             let enterprise = await dataMapper.getOneEnterprise(enterpriseId);
@@ -104,9 +111,7 @@ const get_controller = {
     async serviceInformationFromEnterprise(req, res) {
         try {
             const enterpriseId = req.headers.enterpriseid;
-            let services = await dataMapper.getServicesFromEnterprise(
-                enterpriseId
-            );
+            let services = await dataMapper.getServicesFromEnterprise(enterpriseId);
             if (services) {
                 res.json(services);
             } else {
@@ -119,10 +124,8 @@ const get_controller = {
     async appointmentInformationFromEnterprise(req, res) {
         try {
             const enterpriseId = req.headers.enterpriseid;
-            console.log("chekc my appts", req.headers);
-            let appointments = await dataMapper.getAppointmentsFromEnterprise(
-                enterpriseId
-            );
+            // console.log("chekc my appts", req.headers);
+            let appointments = await dataMapper.getAppointmentsFromEnterprise(enterpriseId);
             if (appointments) {
                 res.json(appointments);
             } else {
@@ -135,12 +138,9 @@ const get_controller = {
     async appointmentsAvailableFromEnterprise(req, res) {
         try {
             const enterpriseId = req.params.id;
-            console.log(req.params.id);
+            // console.log(req.params.id);
             // console.log("ici");
-            let appointments =
-                await dataMapper.getAppointmentsAvailableFromEnterprise(
-                    enterpriseId
-                );
+            let appointments = await dataMapper.getAppointmentsAvailableFromEnterprise(enterpriseId);
             if (appointments) {
                 res.json(appointments);
             } else {
@@ -153,9 +153,7 @@ const get_controller = {
     async offerInformationFromEnterprise(req, res) {
         try {
             const enterpriseId = req.headers.enterpriseid;
-            let offers = await dataMapper.getOffersFromEnterprises(
-                enterpriseId
-            );
+            let offers = await dataMapper.getOffersFromEnterprises(enterpriseId);
             if (offers) {
                 res.json(offers);
             } else {
@@ -181,9 +179,7 @@ const get_controller = {
         try {
             const enterpriseId = res.locals.user.enterpriseId;
 
-            let nextAppointments = await dataMapper.getNextAppointments(
-                enterpriseId
-            );
+            let nextAppointments = await dataMapper.getNextAppointments(enterpriseId);
             if (nextAppointments) {
                 res.json(nextAppointments);
             } else {

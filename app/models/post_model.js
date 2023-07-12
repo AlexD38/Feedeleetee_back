@@ -56,9 +56,7 @@ const post_model = {
             if (enterpriseCreated.id) {
                 console.log(`${enterpriseCreated.name} créé en base de donnée`);
             } else {
-                console.log(
-                    `${enterpriseCreated.name} n'a pas pu être entré en bdd`
-                );
+                console.log(`${enterpriseCreated.name} n'a pas pu être entré en bdd`);
             }
             const result = {
                 success: `${enterpriseCreated.name} well added to database`,
@@ -84,9 +82,7 @@ const post_model = {
             if (enterpriseAttached < 1) {
                 res.json({ error: "Enterprise cannot be attached" });
             }
-            console.log(
-                `${userId} just added an enterprise number ${sqlQuery.values[0]} to its profile !`
-            );
+            console.log(`${userId} just added an enterprise number ${sqlQuery.values[0]} to its profile !`);
             const result = {
                 success: `You just added your enterprise to you profile, congrats ! ;)`,
                 enterpriseId: sqlQuery.values[0],
@@ -124,13 +120,9 @@ const post_model = {
             const results = appointmentCreated.rows[0];
             console.log(results);
             if (results && results != "undefined") {
-                console.log(
-                    `${results.day}, à ${results.time_of_day}h créé en base de donnée`
-                );
+                console.log(`${results.day}, à ${results.time_of_day}h créé en base de donnée`);
             } else {
-                console.log(
-                    `${appointmentCreated} n'a pas pu être entré en bdd`
-                );
+                console.log(`${appointmentCreated} n'a pas pu être entré en bdd`);
             }
             const result = {
                 results,
@@ -172,37 +164,35 @@ const post_model = {
             console.log(error);
         }
     },
-    async insertUsers(userName, mail, password) {
-        //! FRANCAIS ?
+    async insertUsers(userName, mail, hashedPwd) {
+        console.log(userName, mail, hashedPwd);
         try {
             const sqlQuery = {
                 text: `INSERT INTO
-                users (
-                user_name,
-                mail,
-				password
-                )
-                VALUES 
-                ($1,$2,$3)
-                `,
-                values: [userName, mail, password],
+            users (
+            user_name,
+            mail,
+            password
+            )
+            VALUES 
+            ($1,$2,$3)
+            `,
+                values: [userName, mail, hashedPwd],
             };
             let results = await client.query(sqlQuery);
             console.log(results.rowCount);
             const newUser = results.rowCount;
 
-            if (!newUser > 0) {
-                console.log("le user n'a pas pu être créé en base de donnéee");
-                res.json = { error: "User cannot be created." };
+            if (newUser > 0) {
+                console.log("Le user a été créé avec succès dans la base de données.");
+                return { success: `L'utilisateur ${userName} a bien été ajouté à la base de données.` };
+            } else {
+                console.log("Le user n'a pas pu être créé en base de données.");
+                return { error: "Impossible de créer l'utilisateur." };
             }
-            const result = {
-                success: `Le user : ${userName} , well added to database`,
-            };
-            return result;
         } catch (error) {
-            response.json("no");
-            // res.json = { error: "nope" };
-            console.log("error" + error);
+            console.log("Erreur : " + error);
+            return { error: "Une erreur s'est produite lors de l'insertion de l'utilisateur." };
         }
     },
     async insertOffers(description, discount, enterpriseId) {

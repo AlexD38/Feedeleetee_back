@@ -35,7 +35,6 @@ router.get("/enterprises/:id(\\d+)/appointments", authentication.verifyToken, ge
 router.get("/enterprises/offers", authentication.verifyToken, get_controller.offerInformationFromEnterprise);
 
 router.get("/clients/", authentication.verifyToken, get_controller.clientInformation);
-// router.get("/user", get_controller.getOneUser);
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

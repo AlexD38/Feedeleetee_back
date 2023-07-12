@@ -3,7 +3,6 @@ import express from "express";
 // création de server Express
 const app = express();
 import cors from "cors";
-// utilisation de multer pour l'envioe de fichiers sur le server
 
 // import du pkg, pour utiliser le __dirname
 import { fileURLToPath } from "url";
@@ -35,12 +34,12 @@ app.use(cors());
 
 // Express utilise la session et ses options
 app.use(
-	session({
-		secret: process.env.SESSION_SECRET || "secret",
-		resave: false,
-		saveUninitialized: true,
-		cookie: { secure: false },
-	})
+    session({
+        secret: process.env.SESSION_SECRET || "secret",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false },
+    })
 );
 
 // dfinition du chemin pour fichiers statiques
@@ -55,5 +54,5 @@ app.use(router);
 
 // Ecoute du port + console du port d'écoute.
 app.listen(PORT, () => {
-	console.log(`server running on http://localhost:${PORT}`);
+    console.log(`server running on http://localhost:${PORT}`);
 });

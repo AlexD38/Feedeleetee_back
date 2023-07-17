@@ -51,19 +51,8 @@ app.use(express.static(__dirname + "/public"));
 // utilisation du router
 app.use(router);
 
-app.get("/api", (req, res) => {
-	const path = `/api/item/${v4()}`;
-	res.setHeader("Content-Type", "text/html");
-	res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
-	res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
-
-app.get("/api/item/:slug", (req, res) => {
-	const { slug } = req.params;
-	res.end(`Item: ${slug}`);
-});
-
 // Ecoute du port + console du port d'écoute.
 app.listen(PORT, () => {
 	console.log(`server running on http://localhost:${PORT}`);
 });
+export default app;

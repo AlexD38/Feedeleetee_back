@@ -22,6 +22,12 @@ router.get(
 	authentication.verifyToken,
 	get_controller.getAllInfosForMyEnterprise
 );
+
+router.get("/", (req, res) => {
+	res.json({
+		message: "API - 👋🌎🌍🌏",
+	});
+});
 router.get(
 	"/nextappointments",
 	authentication.verifyToken,

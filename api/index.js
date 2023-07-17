@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 // import de la session Express
 import session from "express-session";
 // import du router Express
-import router from "./app/router.js";
+import router from "../app/router.js";
 // import du dotenv pour aller chercher les credentials de la db
 import dotenv from "dotenv";
 // config pour dotenv
@@ -34,12 +34,12 @@ app.use(cors());
 
 // Express utilise la session et ses options
 app.use(
-    session({
-        secret: process.env.SESSION_SECRET || "secret",
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false },
-    })
+	session({
+		secret: process.env.SESSION_SECRET || "secret",
+		resave: false,
+		saveUninitialized: true,
+		cookie: { secure: false },
+	})
 );
 
 // dfinition du chemin pour fichiers statiques
@@ -48,11 +48,10 @@ app.use(express.static(__dirname + "/public"));
 // utilisation du mw d'auth ici
 // app.use(signController.verifyUser);
 //! authMiddleware.checkIfLogged
-
 // utilisation du router
 app.use(router);
 
 // Ecoute du port + console du port d'écoute.
 app.listen(PORT, () => {
-    console.log(`server running on http://localhost:${PORT}`);
+	console.log(`server running on http://localhost:${PORT}`);
 });

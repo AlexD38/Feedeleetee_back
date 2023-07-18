@@ -28,6 +28,7 @@ router.get("/", (req, res) => {
 		message: "API - 👋🌎🌍🌏",
 	});
 });
+router.get("/ok", get_controller.enterpriseInformation);
 router.get(
 	"/nextappointments",
 	authentication.verifyToken,
@@ -46,7 +47,7 @@ router.get(
 
 router.get(
 	"/enterprises",
-	// authentication.verifyToken,
+	authentication.verifyToken,
 	get_controller.enterpriseInformation
 );
 

@@ -46,7 +46,7 @@ router.get(
 
 router.get(
 	"/enterprises",
-	authentication.verifyToken,
+	// authentication.verifyToken,
 	get_controller.enterpriseInformation
 );
 

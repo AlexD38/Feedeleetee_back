@@ -1,21 +1,12 @@
 import pg from "pg";
 import dotenv from "dotenv";
-import fs from "fs";
 
 const Client = pg.Client;
 dotenv.config();
 
-// Read the SSL certificate and private key files
-const sslConfig = {
-	rejectUnauthorized: false,
-	cert: fs.readFileSync("/app/server.crt"),
-	key: fs.readFileSync("/app/server.key"),
-};
-
 // Define the connection configuration
 const client = new Client({
-	connectionString: process.env.PG_URL,
-	ssl: sslConfig, // Add the SSL configuration here
+	connectionString: process.env.POSTGRES_URL,
 });
 
 console.log("database: " + client.database, "User: " + client.user);

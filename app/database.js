@@ -1,17 +1,24 @@
-// import du module pg pour la db
 import pg from "pg";
-
 import dotenv from "dotenv";
-// définition du client
+import fs from "fs";
+
 const Client = pg.Client;
 dotenv.config();
 
-// défintiion de la connection
+// Read the SSL certificate and private key files
+const sslConfig = {
+	rejectUnauthorized: false,
+	cert: fs.readFileSync("server.crt"),
+	key: fs.readFileSync("server.key"),
+};
+
+// Define the connection configuration
 const client = new Client({
 	connectionString: process.env.PG_URL,
+	ssl: sslConfig, // Add the SSL configuration here
 });
 
-console.log("databse : " + client.database, "User : " + client.user);
+console.log("database: " + client.database, "User: " + client.user);
 
 client.connect(function (err) {
 	if (err) {

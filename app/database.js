@@ -1,17 +1,15 @@
 import pg from "pg";
 import dotenv from "dotenv";
 
-const Client = pg.Client;
-dotenv.config();
+const { Pool } = pg;
 
-// Define the connection configuration
-const client = new Client({
-	connectionString: process.env.POSTGRES_URL,
+const pool = new Pool({
+	connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 });
 
-console.log("database: " + client.database, "User: " + client.user);
+console.log("database: " + pool.database, "User: " + pool.user);
 
-client.connect(function (err) {
+pool.connect(function (err) {
 	if (err) {
 		console.error("Could not connect to PostgreSQL database: ", err);
 	} else {
@@ -19,4 +17,4 @@ client.connect(function (err) {
 	}
 });
 
-export default client;
+export default pool;

@@ -8,8 +8,8 @@ dotenv.config();
 // Read the SSL certificate and private key files
 const sslConfig = {
 	rejectUnauthorized: false,
-	cert: fs.readFileSync("../server.crt"),
-	key: fs.readFileSync("../server.key"),
+	cert: fs.readFileSync("server.crt"),
+	key: fs.readFileSync("server.key"),
 };
 
 // Define the connection configuration

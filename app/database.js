@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 const { Pool } = pg;
 
 const pool = new Pool({
-	connectionString: process.env.POSTGRES_URL,
+	connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 });
 
 console.log("URL de connexion: " + process.env.POSTGRES_URL);

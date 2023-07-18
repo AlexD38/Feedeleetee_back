@@ -5,6 +5,8 @@ const { Pool } = pg;
 
 const pool = new Pool({
 	connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+	user: process.env.POSTGRES_USER,
+	database: process.env.POSTGRES_DATABASE,
 });
 
 console.log("database: " + pool.database, "User: " + pool.user);

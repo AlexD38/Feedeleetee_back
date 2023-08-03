@@ -1,19 +1,7 @@
 
     {
+  "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 
-          
-  "headers": [
-    {
-                "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://feedeleetee-front.vercel.app",
-          "allowed": true
-        }
-      ]
-    }
-  ]
 }
 
           

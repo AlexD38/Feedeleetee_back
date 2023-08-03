@@ -7,7 +7,7 @@
         }
     ],
     "rewrites": [
-        { "source": "/(.*)", "destination": "src/app.js" }
+        { "source": "/(.*)", "destination": "/api" }
     ],
     "headers": [
         {

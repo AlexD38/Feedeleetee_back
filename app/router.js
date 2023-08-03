@@ -12,7 +12,6 @@ import allowcors from "../api/index.js";
 
 const app = express();
 const router = express.Router();
-app.use(allowcors);
 
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

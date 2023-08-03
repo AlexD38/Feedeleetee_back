@@ -17,4 +17,4 @@ const allowCors = (fn) => async (req, res) => {
 //     res.end(d.toString());
 // };
 
-export default allowCors();
+export default allowCors;

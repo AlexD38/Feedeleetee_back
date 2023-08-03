@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+import allowCors from "./api/index.js";
 
 // import de la session Express
 import session from "express-session";
@@ -25,6 +26,7 @@ const PORT = process.env.PORT || 4000;
 // définition du titre du server Express
 app.locals.siteName = "Feedeleetee";
 
+app.use(allowCors);
 // urlencoded pour pouvoir envoyer des données du front via requête POST
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

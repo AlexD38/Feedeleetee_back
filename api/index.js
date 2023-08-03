@@ -339,4 +339,4 @@ const allowCors = (fn) => async (req, res) => {
 
 app.use(allowCors);
 
-export default [allowCors(handler), app];
+export default [allowCors, app];

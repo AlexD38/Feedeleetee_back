@@ -38,6 +38,8 @@ const authMiddleware = {
             console.log(payload);
             console.log("Voici le token crée pour le user qui vient de s'authentifier ==> ", newToken);
             // j'envoie le token dans le header de la requête
+            res.setHeader("Access-Control-Allow-Credentials", true);
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.json({
                 authenticated: true,
                 token: newToken,

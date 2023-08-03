@@ -16,7 +16,6 @@ import session from "express-session";
 import router from "./app/router.js";
 // import du dotenv pour aller chercher les credentials de la db
 import dotenv from "dotenv";
-import allowCors from "./allowCors.js";
 // config pour dotenv
 dotenv.config();
 
@@ -32,7 +31,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // allow cors for everyone
 app.use(cors());
-app.use(allowCors);
 
 // Express utilise la session et ses options
 app.use(

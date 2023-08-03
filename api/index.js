@@ -337,9 +337,6 @@ const allowCors = (fn) => async (req, res) => {
     return await fn(req, res);
 };
 
-const handler = (req, res) => {
-    const d = new Date();
-    res.end(d.toString());
-};
+app.use(allowCors);
 
 export default [allowCors(handler), app];

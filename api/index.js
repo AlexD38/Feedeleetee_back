@@ -323,4 +323,5 @@ TEXT, HOUR TEXT) AS $$
 	$$ LANGUAGE 
 PLPGSQL; 
 `;
+
 export default app;

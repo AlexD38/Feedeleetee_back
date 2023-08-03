@@ -33,7 +33,7 @@
     "nodemon": "^2.0.22",
     "pg": "^8.8.0",
     "postgres": "^3.3.5",
-    "vercel": "^31.0.3"
+    "vercel": "^31.2.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0"

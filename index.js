@@ -26,7 +26,6 @@ const PORT = process.env.PORT || 4000;
 // définition du titre du server Express
 app.locals.siteName = "Feedeleetee";
 
-app.use(allowCors);
 // urlencoded pour pouvoir envoyer des données du front via requête POST
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
